@@ -14,8 +14,7 @@ public interface Strategy{
 }
 ```
 
-Create Concrte Classes (To Do add, To Do substract) implementing Strategy for different Strategies (behaviours)
-**we can keep **
+Create Concrte Classes (To Do add, To Do substract) implementing Strategy for different behaviours/algorithms
 ```java
 public class doAdd implements Strategy{
   @Override
