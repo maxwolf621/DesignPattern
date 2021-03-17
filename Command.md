@@ -1,4 +1,4 @@
-Simple brief : the sender send the command to the receiver a request to do the jobs
+Simple brief : the sender sends the command( to the receiver a request to do the jobs
 
 
 |Participants |  |
@@ -68,7 +68,7 @@ private:
 	Light& theLight;
 };
 
-/* Invoke 
+/* Invoke (sender)
 send the command(request) to receiver class
 */
 class Switch 
