@@ -1,7 +1,11 @@
-Simple brief : the sender sends the command( to the receiver a request to do the jobs
+# Command
+
+###### tags: `Design Pattern`
+
+Simple Brief : The sender(invoker) sends the command( to the receiver a request to do the jobs
 
 
-|Participants |  |
+|Participants | dose something |
 |-------------|--|
 |Command      |declares an interface for executing an operation|
 |ConcreteCommand| extends the Command interface, implementing the Execute method by invoking the corresponding operations on Receiver. It defines a link between the Receiver and the action
@@ -10,94 +14,108 @@ Simple brief : the sender sends the command( to the receiver a request to do the
 |Receiver     | knows how to perform the operations
 
 
+![](https://i.imgur.com/j3u2Wol.png)
 
-```cpp
-#include <iostream>
-#include <memory>
 
-using namespace std;
-
-/*the Command */
-class Command 
+```cpp=
+/** Interface : command 
+ **/
+class command
 {
-public:
-	virtual void execute()=0;
-};
+    virtual void execute()=0;
+}
 
-/*the Receiver : light */
-class Light 
+/**Concrete Command
+ **/
+class command_1 : public command
 {
-public:
-	Light() {  }
-
-	void turnOn() 
-	{
-		cout << "The light is on" << endl;
-	}
-
-	void turnOff() 
-	{
-		cout << "The light is off" << endl;
-	}
-};
-
-
-/* the Concrete Command 
-for turning on the light*/
-class FlipUpCommand: public Command 
-{
-public:
-  //constructor
-	FlipUpCommand(Light& light):theLight(light){}
-  
-  virtual void execute(){theLight.turnOn();}
-
 private:
-	Light& theLight;
-};
-
-/* the Concret command
-for turning off the light*/
-
-class FlipDownCommand: public Command
+    receiver r;
+public:
+    // Make A Command to Receiver
+    void execute(){
+        r.action_1();
+    }
+}
+class command_2 : public command
 {
-public:   
-	FlipDownCommand(Light& light) :theLight(light){}
-	virtual void execute() {theLight.turnOff();}
 private:
-	Light& theLight;
-};
+    receiver r;
+public:
+    void execute(){
+        r.action_2();
+    }
+}
 
-/* Invoke (sender)
-send the command(request) to receiver class
-*/
-class Switch 
+/** To invoke the commands
+    `Sending the command to receiver`
+    `It controls the whole system`
+ **/
+class invoker 
+{
+private:
+    command_1 _1;
+    command_2 _2;
+public:
+    void Invokeaction_1(){
+        _1.execute();
+    }
+    void Invokeaction_2(){
+        _2.execute();
+    }
+}
+
+/* the functions of devices 
+ * e.g. Lamp TV etc...
+ */
+class receiver
 {
 public:
-	Switch(Command& flipUpCmd, Command& flipDownCmd)
-	:flipUpCommand(flipUpCmd),flipDownCommand(flipDownCmd){}
-
-	void flipUp(){flipUpCommand.execute();  }
-  void flipDown(){flipDownCommand.execute();  }
-
-private:
-	Command& flipUpCommand;
-	Command& flipDownCommand;
-};
- 
-/*The test class or client*/
-int main() 
-{
-  // receiver on
-	Light lamp;
-  // set the command
-	FlipUpCommand switchUp(lamp);
-	FlipDownCommand switchDown(lamp);
-
-	Switch s(switchUp, switchDown);
-	// send the command
-  s.flipUp();
-	s.flipDown();
+    // they can be called by Conrete Commands
+    action_1(){
+        // To do something
+        // such as tunr on ... 
+    }
+    action_2(){
+        //  ....
+    }
+    //.. other actions for the device ...
 }
 ```
+> How the commands working
+> : Invokeaction() -> execute() -> action()
 
+
+## combine multiple commands into one
+We can drive the whole system on in class Invoker by using array
+
+```cpp=
+class Invoker
+{
+private:
+    vector<unique_ptr<command>> ONcommands;
+    vector<unique_ptr<command>> OFFcommands;
+public:
+    Invoker(int slots){
+        // slots : total nums of devices
+        ONcommands.resize(slots,nullptr);
+        OFFcommands.resize(slot,nullptr);
+    }
+    void setCommand(int slot, 
+              unique_ptr<command>>& ONcommands,
+              unique_ptr<command>>& OFFcommands)
+           {
+               onCommands[slot] = Oncommands;
+               offCommands[slot] = OFFcommands;
+           }
+    void onButtonWasPush(int slot){
+        onCommands[slot].execute();
+    }
+    void offButtonWasPush(int slot){
+        OFFCommands[slot].execute();
+    }
+    
+    //.. other operations
+    
+}
+```
