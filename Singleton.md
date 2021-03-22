@@ -1,44 +1,98 @@
-# Singleton 
+# Singleton
+###### tags: `Design Pattern`
+[TOC]
 
-The Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance.  
-This is useful when exactly one object is needed to coordinate actions across the system (e.g.  A lock for Thread)
+> Singleton Pattern 
+> : Ensures a class has only one instance, and provides a global point of access to it.
+> 
+> pattern
+> : ![](https://i.imgur.com/ZhgkHCD.png)
 
- class StringSingleton
- {
- public:
-     // Some accessor functions for the class, itself
-     std::string GetString() const 
-     {return mString;}
-     void SetString(const std::string &newStr)
-     {mString = newStr;}
- 
-     // The magic function, which allows access to the class from anywhere
-     // To get the value of the instance of the class, call:
-     //     StringSingleton::Instance().GetString();
-     static StringSingleton &Instance()
-     {
-         // This line only runs once, thus creating the only instance in existence
-         static std::auto_ptr<StringSingleton> instance( new StringSingleton );
-         // dereferencing the variable here, saves the caller from having to use 
-         // the arrow operator, and removes temptation to try and delete the 
-         // returned instance.
-         return *instance; // always returns the same instance
-     }
- 
- private: 
-     // We need to make some given functions private to finish the definition of the singleton
-     StringSingleton(){} // default constructor available only to members or friends of this class
- 
-     // Note that the next two functions are not given bodies, thus any attempt 
-     // to call them implicitly will return as compiler errors. This prevents 
-     // accidental copying of the only instance of the class.
-     StringSingleton(const StringSingleton &old); // disallow copy constructor
-     const StringSingleton &operator=(const StringSingleton &old); //disallow assignment operator
- 
-     // Note that although this should be allowed, 
-     // some compilers may not implement private destructors
-     // This prevents others from deleting our one single instance, which was otherwise created on the heap
-     ~StringSingleton(){} 
- private: // private data for an instance of this class
-     std::string mString;
- };
+
+## Lazy Initialization 
+The singleton is similar to global variables but without the downside of getting created at program start like global variables. 
+Instead, ***the singleton can be created only when it is needed, which can avoid time consuming initialization.***
+
+## Responsibilities 
+
+1. Managing its one instance (and providing global access) 
+2. It is also responsible for whatever its main role is intended. 
+
+A singleton should not be inherited from because its constructor should remain private.
+
+
+## Keyword `synchronized`
+
+a singleton pattern without synchronized
+```java=
+public class singleton{
+
+    private static singleton unique;
+    //..
+    pubic static singleton getsingleton()
+    {
+        if(unique == null){
+            unique = new Singleton();
+        }
+        return unique;
+    }
+    //..
+}
+```
+> this will cause the problem while applying for multiple threading ( not  thread safe)
+
+To fix this problem, we just add synchronized at ...
+```java=
+public static synchronized singleton getsingleton(){
+    //...
+}
+```
+
+> Using synchronize, is expensive and the synchronization is only relevant the first time when there was no instance created yet. 
+
+***Once we've set the unique to an instance of singleton, we have no further need to synchronize this method.***
+
+### `new` a private instance of singleton
+
+If your application always creates and uses an instance of Singleton or the overhead of creation and run-time aspects of the Singleton are not onerous then
+```java=
+public class Singleton {
+    private Singleton() {}
+    
+    // Guaranteed thread safe
+    //  and also get away of 
+    //    affecting of synchronization  
+    private static Singleton unique = new Singleton();
+
+    // now it just reutrn the unique-instance
+    public static Singleton getInstance() {
+        return unique;
+    }
+    //....
+}
+```
+
+### Double-checked Locking
+This also can reduce synchronization costs 
+
+It would first check if an instance of singleton is created, and if not (== null) then using synchronized to create one which means using synchronized at the first time for creating a unique instance of singleton
+```java=
+public class Singleton {
+    private volatile static Singleton unique;
+    private Singleton() {}
+    // using synhronized only once
+    //     while creating a instance
+    public static Singleton getInstance() {
+        if (unique == null) {
+            synchronized (Singleton.class) {
+                if (unique  == null) {
+                    unique  = new Singleton();
+                }
+            }
+        }
+        return unique;
+    }
+}
+```
+
+
