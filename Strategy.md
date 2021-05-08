@@ -1,76 +1,95 @@
-==In Strategy pattern, a class behavior or its algorithm can be changed (you can change other algorithm  at `run time`.==
+# Strategy
+
+###### tags: `Design Pattern`
+
+>Strategy
+>: A class behavior or its algorithm can be changed to expect one at run-time
+
+![](https://i.imgur.com/QskFpjB.png)
+> Context
+> :  something encapsulates some kind of state.
+```python=
+class concreteStragies1:
+    def algorithm(self,'''parameters'''):
+        #...
+class concreteStragies2:
+    def algorithm(self,'''parameters'''):
+        #....
+
+```
 
 
 
+The Strategy pattern suggests: 
+1. Encapsulating an algorithm/behavior in a class hierarchy (implement the interface)
+2. Having clients of that algorithm holds a pointer to the base class of that hierarchy (Class Context)
+3. Delegating all requests for the algorithm to that "anonymous" contained object. (ExecuteStraegy(..) method in Context)
 
-For example 
-Create A Strategy for arithmetic ...
-For now we just need the arithemtic for Add, Substract ..
 
-First we create interface A Class
+## Example of doing + or -  for arithmetic ...
+
+#### interface Strategy
 ```java
 public interface Strategy{
  public int algorithm()
 }
 ```
 
-Create Concrte Classes (To Do add, To Do substract) implementing Strategy for different behaviours/algorithms
+#### Create different *Concrete*Strategies 
+
+for different behaviors/algorithms we got these
 ```java
+/* assume we got for now for two different behaviors ..*/
+
 public class doAdd implements Strategy{
   @Override
-  public int algorithm(/* .. */){
-    //.....
+  public int algorithm(int a ,int b){
+    //do something
   }
 }
 
 public class doSubstract implements Strategy{
   @Override
-  public int algorithm(/*...*/){
-    //.....
+  public int algorithm(int a, int b){
+    //do something
   }
 }
 ```
 
-
-
-
-Create Context Class 
-to access the instance of strategy and use the difference strategies
-```java
+#### Context Class 
+- this allows us use difference strategies(behaviors) at run-time
+    > it encapsulates the sate of concrete strategies
+```java=
 public class Context{
-  private Strategy strategy;
-  
-  // I need a method access private member
- public Context(Strategy strategy){
-   this.strategy = strategy;
- }
- 
- // To Execute The Strategies
- public int executeStrategy( /*...*/){
-  return strategy.algorithm(/*...*/);
- }
-}
+    private Strategy strategy;
 
+    public Context(Strategy strategy){
+    this.strategy = strategy;
+    }
+    // To Execute The Contrete Strategies
+    public int ExecuteStrategy(int a, int b){
+        return strategy.algorithm(int a, int b);
+    }
+}
+```
+
+Run the Strategy Pattern
+```java=
 public class StrategyPattern{
   public static void main(String[] args){
     // Create A instance of Context
     // Constructor of Context creates instance of Strategy
     Context add = new Context(new doAdd());
-    Context add = new Context(new doAdd());
+    Context substract = new Context(new doSubstract()));
     
     /* we can have different algorithms in run-time
         such as add , substract ... 
     */
-    
+    int a = 5;
+    int b = 1;
     // Execute the strategy for adding
-    add.executeStrategy( /*...*/); 
-    substract.executeStrategy(/*...*/);
+    add.ExecuteStrategy(a,b); 
+    substract.ExecuteStrategy(a,b);
   }
 }
 ```
-
-
-The Strategy pattern suggests: 
-1. Encapsulating an algorithm/behaviour in a class hierarchy (class doAdd, class doSubstract ...)
-2. Having clients of that algorithm hold a pointer to the base class of that hierarchy (Class Context)
-3. Delegating all requests for the algorithm to that "anonymous" contained object. (executeStraegy() )
