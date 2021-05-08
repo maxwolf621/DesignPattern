@@ -16,7 +16,7 @@
 
 ## Scenario of merge different (types) menus
 If we want to merge two menus 
->for example
+>For example
 >![](https://i.imgur.com/WwWcYtK.png)
 
 ```java=
@@ -65,10 +65,10 @@ public class DinerMenu{
 }
 ```
 
-Both menus use different way to contain their information(e.g. description, name ... etc). 
-One uses array-list and the other uses array.
+- Both menus use different way to contain their information(e.g. description, name ... etc). 
+    > One uses array-list and the other uses array.
 
-A waitress handle these menus kindda like
+#### Now A waitress handle these menus sorta like this
 ```java=
 public class waitress{
     PancakeHouseMenu pancakeHouseMenu =
@@ -95,10 +95,10 @@ public class waitress{
     }
 }
 ```
-Now here comes to the problem.
-the Waitress need to have two different loop to iterate over the two different kinds of menus.
-also if we added a third menu, we'd have yet another loop to iterate.
-This definitely gives us (the Waitress) hard to maintain and extend
+- here comes to the problem.
+    > The Waitress need to have two different loop to iterate over the two different kinds of menus.  
+    > Also if we added a third menu, we'd have yet another loop to iterate.  
+    > **This definitely gives us (the Waitress) hard to maintain and extend (Against Design Pattern Rule)**
 
 To solve such problem we can use `iterator pattern`
 > Iterator
@@ -106,7 +106,9 @@ To solve such problem we can use `iterator pattern`
 >
 > : ![](https://i.imgur.com/aCNoJBB.png)
 
-[sourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/tree/master/src/headfirst/designpatterns/iterator/dinermerger)
+<font size=6>[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/tree/master/src/headfirst/designpatterns/iterator/dinermerger)</font>
+
+
 
 ```java=
 public interface Iterator{
@@ -114,8 +116,8 @@ public interface Iterator{
     MenuItem next()
 }
 public class ArrayListIterator implements Iterator{
-	ArrayList<MenuItem> items;
-	int position = 0;
+    ArrayList<MenuItem> items;
+    int position = 0;
     //..
     public MenuItem next(){
         //..
@@ -124,9 +126,9 @@ public class ArrayListIterator implements Iterator{
         //...
     }
 }
-public class ArrayIterator implemetns Iterator{
-	MenuItem[] items;
-	int position = 0;
+public class ArrayIterator implements Iterator{
+    MenuItem[] items;
+    int position = 0;
     //..
     public MenuItem next(){
         //..
@@ -139,6 +141,7 @@ public class ArrayIterator implemetns Iterator{
 public interface Menu{
     Iterator createIterator();
 }
+
 public class PancakeHouseMenu implements Menu{
     //..
     public Iterator createIterator(){
@@ -149,11 +152,11 @@ public class DinerMenu implements Menu{
     //..
 }
 ```
-> Class MenuItem : Methods to set up name,description, price
-> Class Menu : using methods in MenuItem to set up name,description, price and then create an Iterator and return it to the waitress
-> Class Iterator : different type menu can use by same methods(e.g next(), hasNext() ... etc)
+-  Class MenuItem : Methods to set up name,description, price
+-  Interface Menu : using methods in MenuItem to set up name,description, price and then create an Iterator and return it to the waitress
+- Interface Iterator : different type menu can use by same methods(e.g next(), hasNext() ... etc)
 
-Now now waitress can use the same loop method to iterate our menus
+Now the waitress can use the same loop method to iterate our menus
 ```java=
 public class Waitress{
     // we can use Menu instead of concreate Menus
@@ -179,7 +182,7 @@ public class Waitress{
 
 ## Using java.util.Iterator to resize our Menus
 
-the New interface Iterator
+the New interface Iterator  
 ![](https://i.imgur.com/xTvQYut.png)
 ```java=
 public interface Iterator{
@@ -212,13 +215,14 @@ public class Waitress{
     Menu pancakeHouseMenu;
     Menu dinerMenu;
     
+    // Watiress holds the menus
     public Waitress(Menu pancakeHouseMenu,Menu dinerMenu){
         this.pancakeHouseMenu = pancakeHouseMenu;
         this.dinerMenu = dinerMenu;
     }
     public void printMenu(){
-    //with java.util.Iterator 
-    // and it also violates the open closed principle
+        //with java.util.Iterator 
+        // and it also violates the open closed principle
         Iterator<MenuItem> pancakeIter = pancakeHouseMenu.createIterator();
         Iterator<MenuItem> dinerIter = dinerMneu.createIterator();
         
@@ -510,129 +514,3 @@ public class Waitress{
 }
 ```
 
-
-<style>
-html,
-body, 
-.ui-content,
-/*Section*/
-.ui-toc-dropdown{
-    background-color: #1B2631;
-    color: #9BCBFC;
-}
-
-body > .ui-infobar {
-    display: none;
-}
-
-.ui-view-area > .ui-infobar {
-    display: block ;
-    color: #5D6D7E ;
-}
-
-.markdown-body h1,
-.markdown-body h2,
-.markdown-body h3,
-.markdown-body h4,
-.markdown-body h5,
-/*> first 
- *>> second
- */
-.markdown-body blockquote{	
-    /*#7FFFD4*/
-    /*#59FFFF*/
-    color: #7FFFD4;
-}
-
-.markdown-body h6{
-    color: gold;
-}
-.markdown-body h1,
-.markdown-body h2 {
-    border-bottom-color: #5D6D7E;
-    border-bottom-style: ;
-    border-bottom-width: 3px;
-}
-
-.markdown-body h1 .octicon-link,
-.markdown-body h2 .octicon-link,
-.markdown-body h3 .octicon-link,
-.markdown-body h4 .octicon-link,
-.markdown-body h5 .octicon-link,
-.markdown-body h6 .octicon-link {
-    color: yellow;
-}
-
-.markdown-body img {
-    background-color: transparent;
-}
-
-.ui-toc-dropdown .nav>.active:focus>a, .ui-toc-dropdown .nav>.active:hover>a, .ui-toc-dropdown .nav>.active>a {
-    color: gold;
-    border-left: 2px solid white;
-}
-
-.expand-toggle:hover, 
-.expand-toggle:focus, 
-.back-to-top:hover, 
-.back-to-top:focus, 
-.go-to-bottom:hover, 
-.go-to-bottom:focus {
-    color: gold;
-}
-
-/*dropdown Bar*/
-.ui-toc-label.btn {
-    background-color: #191919;
-    color: #eee;
-}
-
-/*tests inside the bar*/
-.ui-toc-dropdown .nav>li>a:focus, 
-.ui-toc-dropdown .nav>li>a:hover {
-    color: gold;
-    border-left: 1px solid white;
-}
-
-
-/*for table*/
-.markdown-body table tr {
-    background-color: #5f5f5f;
-}
-.markdown-body table tr:nth-child(2n) {
-    background-color: #4f4f4f;
-}
-
-
-.markdown-body code,
-.markdown-body tt {
-    color: #eee;
-    background-color: rgba(200, 230, 230, 0.36);
-}
-
-
-a,.open-files-container li.selected a {
-    color: #5EB7E0;
-}
-
-
-/*für == == , <mark>*/
-.markdown-body mark {
-  background-color:  ;
-  color: #E74C3C ;
-  font-family: Helvetica;
-}
-  
-
-.markdown-body pre
- {
-  display: block;
-  font-family: monospace;
-  white-space: pre;
-  margin: black;
-  color : #026C5D;
-  background-color: ;
-}
-
-
-</style>
