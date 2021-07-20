@@ -1,36 +1,49 @@
-# Memento
-
 ###### tags: `Design Pattern`
-[Ref : tutorialspoint](https://www.tutorialspoint.com/design_pattern/memento_pattern.htm)
+# Memento  
+[REF tutorialspoint](https://www.tutorialspoint.com/design_pattern/memento_pattern.htm)  
+[Guro_memeto](https://refactoring.guru/design-patterns/memento)  
+[Another Example](https://github.com/iluwatar/java-design-patterns/tree/master/memento/src/main/java/com/iluwatar/memento)  
+
+[TOC]
 
 > Pattern
-> : ![](https://i.imgur.com/gGCZUOm.png)
-
-
-Originator (Current State)
-1. Creates a memento object capturing the originator's internal state.
-2. Use the memento object to restore its previous states.
-
-Caretaker 
-1. Responsible for keeping the memento(s).
-2. The memento is opaque to the caretaker, and the caretaker must not operate on it.
-
-## CareTaker make a backup of multiple state  
-![](https://i.imgur.com/f9V8vYW.png)
+> ![](https://i.imgur.com/gGCZUOm.png)
+> ---
+> ![](https://i.imgur.com/RnlS0sH.png)
 
 
 
+Originator (Role)  
+- Creates memento objects capturing the originator's internal states(restore its previous states.)  
+
+Caretaker (take care of state from Role)
+- Responsible for keeping records of the memento(s) for Originator  
+- **The memento is opaque(opak) to the caretaker, and the caretaker must not operate on it.**  
+
+## Multiple state backups in Caretaker
+![](https://i.imgur.com/f9V8vYW.png)  
+- class `CareTaker` has array `Memento[]`  
+
+![](https://i.imgur.com/pFQSIql.png)  
 
 
-## Example Record/Get the sate of A character with HP and EXP using Memento pattern
+## Example  
+Record/Get the sate of A character/Role's HP and EXP using via Memento pattern [soruceCode](http://corrupt003-design-pattern.blogspot.com/2017/02/memento-pattern.html)    
 
-[soruceCode](http://corrupt003-design-pattern.blogspot.com/2017/02/memento-pattern.html)
+![](https://i.imgur.com/rm5qCcZ.png)  
 
-Originator
-```java=
+
+```java
+/**
+ * <p> Originator </p>
+ * Via CateTaker Originator's state
+ * will be stored
+ */
 public class GamePlayer {
-    // Current Sate
-    // declare character's HP and exp
+   
+    /**
+     * <p> States </p>
+     */
     private int mHp;
     private int mExp;
 
@@ -40,26 +53,40 @@ public class GamePlayer {
         mExp = exp;
     }
 
-    // save the current state
+    /**
+     * @Description
+     *   Save the current State
+     */
     public GameMemento saveToMemento()
-    {return new GameMemento(mHp, mExp);}
+    {
+        return new GameMemento(mHp, mExp);
+    }
 
-    // restore the previous state
+    /**
+     * @Description
+     *   restore the previous state
+     * @param memento 
+     */
     public void restoreFromMemento(GameMemento memento)
     {
         mHp = memento.getGameHp();
         mExp = memento.getGameExp();
     }
 
+    /**
+     * @Description
+     *    Record role's damage hitted by Eenemy 
+     */
     public void play(int hp, int exp)
     {
         mHp = mHp - hp;
         mExp = mExp + exp;
     }
 }
-```
-Memento
-```java=
+
+/**
+ * Memento
+ */
 public class GameMemento {
     private int mGameHp;
     private int mGameExp;
@@ -69,7 +96,8 @@ public class GameMemento {
         mGameHp = hp;
         mGameExp = exp;
     }
-
+    
+    
     public int getGameHp()
     {
         return mGameHp;
@@ -80,45 +108,104 @@ public class GameMemento {
         return mGameExp;
     }
 }
-```
 
-Caretaker ,
-Consider it as an store that stores your state
-```java=
-// Caretaker (Care = Carry : saving/keeping the memnto)
+/**
+ *  <p> Caretaker </p>  
+ *  it stores Our State and operates Memento
+ */
 public class GameCaretaker {
 
-    private GameMemento mMemento;
+    /** 
+     * <p> To store multiple States </p>
+     * {@code stack<GameMemento>}
+     * {@code List<GameMemento>} 
+     */
+    private List<GameMemento> mementoList = New ArrayList<GameMemento>();
+    private GameMemento gameMemento;
 
-    // get Memento
+    /**
+     * @Description
+     *   Get Memento
+     */
     public GameMemento getMemento()
     {
-        return mMemento;
+        return gameMemento;
     }
     
-    // save only one state
+    /**
+     * @Description
+     *   Get Memento from list
+     */
+    public GameMemento getMementos(int index){
+        return mementoList.get(index);
+    }
+    
+    /**
+     * @Description
+     *   Save only one state
+     */
     public void setMemento(GameMemento memento)
     {
         mMemento = memento;
     }
+    
+    /**
+     * @Description
+     *   Add the sate to list
+     */
+    public void addMemento(GameMemento memento)
+    {
+        mMementos.add(memento);
+    }
 }
 
+/**
+ * Client
+ */
 public class Demo {
 
     public static void main(String[] args)
     {
-        //create A new player
+        /**
+         * Originator
+         */
         GamePlayer player = new GamePlayer(100, 0);
 
-        // SAVING the game
+        /**
+         * careTaker stores states
+         */
         GameCaretaker caretaker = new GameCaretaker();
+        
+        /**
+         * @param player.saveTomemento 
+         *        returns new GameMemnto(hp, exp)
+         */
         caretaker.setMemento(player.seveToMemento());
 
-        // GG
+        /**
+         *  Wasted
+         */
         player.play(-100, 10);
+        
 
-        // reloading
+        /**
+         * <p> Reloading the game </p>
+         *  Restore <pre> player </pre> 
+         *    the state that store 
+         *    in <pre> careTaker </pre>
+         */
         player.restoreFromMemento(caretaker.getMemento());
+        
+        
+        player.play(-10, 30);
+        
+        /**
+         * player saves current state in the mementoList
+         */
+        careTaker.addMemento(caretaker.saveToMemento);
+        
+        
     }
 }
 ```
+
