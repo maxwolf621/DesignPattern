@@ -1,25 +1,26 @@
 
 ###### tags: `Design Pattern`
-
 # Composite and Iterator
-[TOC]
 
+> Iterator-Muster  
+![](https://i.imgur.com/murQQP1.png)  
 
-> Pattern
-> : ![](https://i.imgur.com/murQQP1.png)
+## Example without Iterator pattern
 
+To merge two menus  
+>For example  
+>![](https://i.imgur.com/WwWcYtK.png)  
 
-
-> Pattern
-> : ![](https://i.imgur.com/FddV3XT.png)
-
-
-## Scenario of merge different (types) menus
-If we want to merge two menus 
->For example
->![](https://i.imgur.com/WwWcYtK.png)
-
-```java=
+```java
+/**
+  *<p> If we have two menus as the following  </p>
+  *	<li> DinerMenu </li>
+  *	<li> PancakeHouseMenu </li>
+  *<p> Two menus have different structures </p>
+  *<p> PacakeHouseMenu stores its items via {@code ArrayList<MenuItem>} </p>
+  *<p> DinerMenu stores its items via {@code MenuItem[]} </p>
+  */
+  
 public class MenuItem{
     String name;
     String description;
@@ -27,12 +28,13 @@ public class MenuItem{
     double price;
     
     public MenuItem(String name, String description,
-                    boolean vegetarian, double price)
-                    {
+                    boolean vegetarian, double price){
                         /* initialize ... */
-                    }
-    //...
+    }
+    
+    // other methods ...
 }
+
 public class PancakeHouseMenu{
     ArrayList<MenuItem> menuItems;
     
@@ -41,6 +43,11 @@ public class PancakeHouseMenu{
         addItem(/* name, description, price */);
         //....
     }
+    
+    /**
+      * @Description
+      *    Add the item in the menu
+      */
     public void addItem(String name, String description,
                 boolean vegetarian , double price)
                 {
@@ -48,11 +55,20 @@ public class PancakeHouseMenu{
                     menItems.add(menuItem);
                 }
 }
+
 public class DinerMenu{
     static final int MAX = 6;
-    // nums of item
+    
     int items = 0;
     MenuItem[] menuItems;
+    
+    public DinerMenu(){
+    	menuItems = new MenuItem[MAX];
+	
+	addItem(/*...*/);
+	addItem(/*...*/);
+	//.. add rest 
+    }
     
     public void addItem(String name, String description,
                 boolean vegetarian, double price){
@@ -64,34 +80,29 @@ public class DinerMenu{
     //...
 }
 ```
-
 - Both menus use different way to contain their information(e.g. description, name ... etc). 
-    > One uses array-list and the other uses array.
+    > One uses ArrayList and the other uses Array.
 
-#### Now A waitress handle these menus sorta like this
-```java=
+Now A waitress handle two menus sorta like this
+```java
 public class waitress{
-    PancakeHouseMenu pancakeHouseMenu =
-        new PancakeHOuseMenu();
-    // PancakeHouseMenu's format is ArrayList
-    ArrayList<MenuItem> breakfastItems = 
-        pancakeHouseMenu.getMenuItems();
+    PancakeHouseMenu pancakeHouseMenu = new PancakeHOuseMenu();
+    ArrayList<MenuItem> breakfastItems = pancakeHouseMenu.getMenuItems();
     
-    // dinerMenu's format is Array
     DinerMenu dinerMenu = new DinerMenu();
     MenuItem[] LunchItems = dinerMenu.getMenuItems();
     
+    //For PancakeHouseMenu
     for(int i = 0 ; i < breakfastItems.size() ; ++i)
     {
-        // using method of arraylist
         MenuItem menuItem = breakfastItems.get(i);
-        // operations for 
-        //   printing out name, price, Description
+	//...
     }
+    
+    //For dinerMenu 
     for(int i = 0; i < lunchItems.lengtho ; ++i){
-        // using array
-        MenuItem menuItem = lunchItem[i]
-        // ...
+        MenuItem menuItem = lunchItem[i];
+	//...
     }
 }
 ```
@@ -101,163 +112,370 @@ public class waitress{
     > **This definitely gives us (the Waitress) hard to maintain and extend (Against Design Pattern Rule)**
 
 To solve such problem we can use `iterator pattern`
-> Iterator
-> : provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
->
-> : ![](https://i.imgur.com/aCNoJBB.png)
-
-<font size=6>[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/tree/master/src/headfirst/designpatterns/iterator/dinermerger)</font>
+> Iterator  
+> provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.  
+> ![image](https://user-images.githubusercontent.com/68631186/126334313-5ebfecb9-4e95-4dcf-a7de-151dc5b5ceca.png)
 
 
+[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/tree/master/src/headfirst/designpatterns/iterator/dinermerger)
 
-```java=
+```java
+/**
+  * Adapter Pattern
+  */
 public interface Iterator{
     boolean hasNext()
     MenuItem next()
 }
+
 public class ArrayListIterator implements Iterator{
-    ArrayList<MenuItem> items;
-    int position = 0;
-    //..
-    public MenuItem next(){
-        //..
-    }
-    public boolean hasNext(){
-        //...
-    }
+	ArrayList<MenuItem> items;
+	int position = 0;
+
+	publkic ArrayListIterator(ArrayList<MenuItem> items){
+		this.items = items;
+	}
+	
+	/**
+	  * @Description
+	  *	Go next element 
+	  */
+	public MenuItem next(){
+		return items.get(position++);
+	}
+	
+	public boolean hasNext(){
+		return items.size() > position;
+	}
 }
 public class ArrayIterator implements Iterator{
-    MenuItem[] items;
-    int position = 0;
-    //..
-    public MenuItem next(){
-        //..
-    }
-    public boolean hasNext(){
-        //...
-    }
-}
-// To create our menu
-public interface Menu{
-    Iterator createIterator();
+	MenuItem[] items;
+    	int position = 0;
+	
+	public ArrayIterator(MenuItem[] items) {
+		this.items = items;
+	}
+	public MenuItem next() {
+		return items.get(position++);
+	}
+
+	public boolean hasNext() {
+		/*
+		if (position >= items.length || items[position] == null) {
+			return false;
+		} else {
+			return true;
+		}
+		*/
+	
+		return items.length > position;
+	}
 }
 
+
+/**
+  * <p> Menu that creats Iterator </p>
+  */
+public interface Menu{
+	Iterator createIterator();
+}
+
+/**
+  * <p> Implatement our PackeHouseMenu and DinerMenuy 
+  *	with Menu for create an Iterator </p>
+  */
 public class PancakeHouseMenu implements Menu{
-    //..
-    public Iterator createIterator(){
-        return new PancakeIterator(menuItems);
-    }
+	//..
+	
+	public Iterator createIterator(){
+		return new PancakeIterator(menuItems);
+	}
 }
 public class DinerMenu implements Menu{
-    //..
+	//..
+	
+	public Iterator createIterator() {
+		return new DinerMenuIterator(menuItems);
+	}
 }
 ```
--  Class MenuItem : Methods to set up name,description, price
--  Interface Menu : using methods in MenuItem to set up name,description, price and then create an Iterator and return it to the waitress
-- Interface Iterator : different type menu can use by same methods(e.g next(), hasNext() ... etc)
+-  `MenuItem` Class : Methods to set up each meal's name,description and price
+-  `Menu` Interface : Create an Iterator method (so the menus can be used as Iterator)
+-  `Iterator` Interface : (adapter pattern) Different structure menus can use the same methods(e.g `next()`, `hasNext()` ... etc)
 
-Now the waitress can use the same loop method to iterate our menus
-```java=
+Now Watiress can use methods 
+```java
 public class Waitress{
-    // we can use Menu instead of concreate Menus
-    //     Always programming to an interface,
-    //        not  an implementation 
-    //            less Decouple
-    PanckaeHouseMenu pancakeHouseMenu;
-    DinerMenu dinerMenu;
+       /**
+	 * <p> We can use Menu instead of concreateMenus. </p>
+	 *  <strong> Always programming to an interface,
+	 *  Not an implementation for Less Decouple </strong>
+	 */
+	Menu pancakeHouseMenu; // PanckaeHouseMenu pancakeHouseMenu <-- sucks	
+	Menu dinerMenu;        // DinerMenu dinerMenu <-- sucks 
     
-    public Waitress(PancakeHouseMenu pancakeHouseMenu,
-            DinerMenu dinerMenu){
-        this.pancakeHouseMenu = pancakeHouseMenu;
-        this.dinerMenu = dinerMenu;
-    }
-    public void printMenu(){
-        Iterator pancakeIter = pancakeHouseMenu.createIterator();
-        Iterator dinerIter = dinerMneu.createIterator();
-        //...
-    }
-    //..
+	public Waitress(Menu pancakeHouseMenu, Menu dinerMenu) {
+		this.pancakeHouseMenu = pancakeHouseMenu;
+		this.dinerMenu = dinerMenu;
+	}
+ 
+	public void printMenu() {
+		Iterator pancakeIterator = pancakeHouseMenu.createIterator();
+		Iterator dinerIterator = dinerMenu.createIterator();
+
+		System.out.println("MENU\n----\nBREAKFAST");
+		printMenu(pancakeIterator);
+		System.out.println("\nLUNCH");
+		printMenu(dinerIterator);
+
+	}
+ 
+	private void printMenu(Iterator iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			System.out.print(menuItem.getName() + ", ");
+			System.out.print(menuItem.getPrice() + " -- ");
+			System.out.println(menuItem.getDescription());
+		}
+	}
+ 
+	public void printVegetarianMenu() {
+		printVegetarianMenu(pancakeHouseMenu.createIterator());
+		printVegetarianMenu(dinerMenu.createIterator());
+	}
+ 
+	public boolean isItemVegetarian(String name) {
+		Iterator breakfastIterator = pancakeHouseMenu.createIterator();
+		if (isVegetarian(name, breakfastIterator)) {
+			return true;
+		}
+		Iterator dinnerIterator = dinerMenu.createIterator();
+		if (isVegetarian(name, dinnerIterator)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	private void printVegetarianMenu(Iterator iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			if (menuItem.isVegetarian()) {
+				System.out.print(menuItem.getName());
+				System.out.println("\t\t" + menuItem.getPrice());
+				System.out.println("\t" + menuItem.getDescription());
+			}
+		}
+	}
+
+	private boolean isVegetarian(String name, Iterator iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			if (menuItem.getName().equals(name)) {
+				if (menuItem.isVegetarian()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
 ```
 
-## Using java.util.Iterator to resize our Menus
+## Using `java.util.Iterator` package to resize our Menus
 
-the New interface Iterator  
-![](https://i.imgur.com/xTvQYut.png)
-```java=
+[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/blob/master/src/headfirst/designpatterns/iterator/dinermergeri/Waitress.java)  
+![](https://i.imgur.com/xTvQYut.png)  
+
+```java
 public interface Iterator{
     boolean hasNext()
     MenuItem next()
-    // the remove element method
-    void remove()
+    void remove() // the remove element method 
 }
-// for DinerMenuIterator
+
+// we add remove method in our DinerMenuIterator
 public class DinerMenuIterator implements Iterator{
-    MenuItem[] list ;
-    int position = 0;
-    //..
-    public void{
-        //..
-        if(list[position-1] != null){
-        //To remove the last element of fixed Array
-        // we need to shift up the array
-            for(int i = position-1;i < (list.length)-1); ++i){
-                list[i] = list[i+1]
-            } 
-            list[list.length-1] = null
-        }
-    }
+	MenuItem[] list ;
+	int position = 0;
+	//..
+    
+        /**
+	  * @Description
+	  * 	remove the first element and shift each element forward
+	  * @throws IllegalStateException
+	  */
+	public void remove() {
+		if (position <= 0) {
+			throw new IllegalStateException
+				("You can't remove an item until you've done at least one next()");
+		}
+		if (list[position-1] != null) {
+			for (int i = position-1; i < (list.length-1); i++) {
+				list[i] = list[i+1];
+			}
+			list[list.length-1] = null;
+		}
+	}
 }
 ```
+
 Update our Waitress
-```java=
+```java
 public class Waitress{
     Menu pancakeHouseMenu;
     Menu dinerMenu;
     
-    // Watiress holds the menus
-    public Waitress(Menu pancakeHouseMenu,Menu dinerMenu){
-        this.pancakeHouseMenu = pancakeHouseMenu;
-        this.dinerMenu = dinerMenu;
-    }
+    //..
+    
     public void printMenu(){
-        //with java.util.Iterator 
-        // and it also violates the open closed principle
+        /**
+          * The following declaration violates the open closed principle
+	  */
         Iterator<MenuItem> pancakeIter = pancakeHouseMenu.createIterator();
         Iterator<MenuItem> dinerIter = dinerMneu.createIterator();
-        
+        //...
     }
     //..
 }
 ```
-To follow the open close principle 
-```java=
-public class Waitress{
-    ArrayList<Menu> menus;
-    
-    public Waitress(ArrayList<Menu> menus){
-        this.menus = menus;
-    }
-    public void printMenu(){
-        Iterator<Menu> menuIterator = menu.iterator();
-        while(menuIterator.hasNext())
-        {
-            Menu menu = menuIterator.next();
-            printMenu(menu.createIteraotr());
-        }
-        void printMenu(Iterator<Menu> iterator){
-            while(iterator.hasNext())
-            {
-                //....
-            }
-        }
-        
-    }
-    //..
+
+To Follow the open close principle 
+```java
+import java.util.Iterator;
+import java.util.ArrayList;
+ 
+public class Waitress {
+	Menu pancakeHouseMenu;
+	Menu dinerMenu;
+ 
+	public Waitress(Menu pancakeHouseMenu, Menu dinerMenu) {
+		this.pancakeHouseMenu = pancakeHouseMenu;
+		this.dinerMenu = dinerMenu;
+	}
+	
+	public void printMenu(int withNewConstructs) {
+		ArrayList<MenuItem> breakfastItems = ((PancakeHouseMenu) pancakeHouseMenu).getMenuItems();
+		
+		//pMenu.forEach(m -> printMenuItem(m));
+		
+		for (MenuItem m : breakfastItems) {
+			printMenuItem(m);
+		}
+		
+		MenuItem[] lunchItems = ((DinerMenu) dinerMenu).getMenuItems();
+		for (MenuItem m : lunchItems) {
+			printMenuItem(m);
+		}
+	}
+	
+	public void printMenuItem(MenuItem menuItem) {
+		System.out.print(menuItem.getName() + ", ");
+		System.out.print(menuItem.getPrice() + " -- ");
+		System.out.println(menuItem.getDescription());
+	}
+
+ 
+	public void printMenu() {
+		Iterator<MenuItem> pancakeIterator = pancakeHouseMenu.createIterator();
+		Iterator<MenuItem> dinerIterator = dinerMenu.createIterator();
+
+		System.out.println("MENU\n----\nBREAKFAST");
+		printMenu(pancakeIterator);
+		System.out.println("\nLUNCH");
+		printMenu(dinerIterator);
+	}
+ 
+	private void printMenu(Iterator<MenuItem> iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			System.out.print(menuItem.getName() + ", ");
+			System.out.print(menuItem.getPrice() + " -- ");
+			System.out.println(menuItem.getDescription());
+		}
+	}
+ 
+	public void printVegetarianMenu() {
+		System.out.println("\nVEGETARIAN MENU\n----\nBREAKFAST");
+		printVegetarianMenu(pancakeHouseMenu.createIterator());
+		System.out.println("\nLUNCH");
+		printVegetarianMenu(dinerMenu.createIterator());
+	}
+ 
+	public boolean isItemVegetarian(String name) {
+		Iterator<MenuItem> pancakeIterator = pancakeHouseMenu.createIterator();
+		if (isVegetarian(name, pancakeIterator)) {
+			return true;
+		}
+		Iterator<MenuItem> dinerIterator = dinerMenu.createIterator();
+		if (isVegetarian(name, dinerIterator)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	private void printVegetarianMenu(Iterator<MenuItem> iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			if (menuItem.isVegetarian()) {
+				System.out.print(menuItem.getName());
+				System.out.println("\t\t" + menuItem.getPrice());
+				System.out.println("\t" + menuItem.getDescription());
+			}
+		}
+	}
+
+	private boolean isVegetarian(String name, Iterator<MenuItem> iterator) {
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			if (menuItem.getName().equals(name)) {
+				if (menuItem.isVegetarian()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
 ```
+
+client
+```java
+public class MenuTestDrive {
+	public static void main(String args[]) {
+		PancakeHouseMenu pancakeHouseMenu = new PancakeHouseMenu();
+		DinerMenu dinerMenu = new DinerMenu();
+		Waitress waitress = new Waitress(pancakeHouseMenu, dinerMenu);
+		//waitress.printMenu();
+		// -- added 12/30/2016
+		waitress.printMenu(1);
+		// ---
+		//waitress.printVegetarianMenu();
+
+		System.out.println("\nCustomer asks, is the Hotdog vegetarian?");
+		System.out.print("Waitress says: ");
+		if (waitress.isItemVegetarian("Hotdog")) {
+			System.out.println("Yes");
+		} else {
+			System.out.println("No");
+		}
+		System.out.println("\nCustomer asks, are the Waffles vegetarian?");
+		System.out.print("Waitress says: ");
+		if (waitress.isItemVegetarian("Waffles")) {
+			System.out.println("Yes");
+		} else {
+			System.out.println("No");
+		}
+
+	}
+}
+```
+
 ## A scenario for the menu inserting a new menu under it
-[REF](https://fjp.at/design-patterns/composite)
+[REF](https://fjp.at/design-patterns/composite)  
+> Coomposite-Muster  
+![](https://i.imgur.com/FddV3XT.png)  
 
 If the Diner menu will create a sub-menu(dessert Menus) under it
 ![](https://i.imgur.com/Fc2nwQt.png)
@@ -271,7 +489,7 @@ MenuCompnent should provide a default implementation of the methods so that if t
 
 ![](https://i.imgur.com/T4ENYIX.png)
 
-```java=
+```java
 public abstract class MenuComponent{
     /* methods add, remove, getChild will be grouped together
             as composite methods
