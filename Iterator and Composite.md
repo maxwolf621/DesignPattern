@@ -1,6 +1,6 @@
 
 ###### tags: `Design Pattern`
-# Composite and Iterator
+# Iterator and Composite pattern
 
 > Iterator-Muster  
 ![](https://i.imgur.com/murQQP1.png)  
@@ -291,16 +291,19 @@ public class Waitress{
 [SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/blob/master/src/headfirst/designpatterns/iterator/dinermergeri/Waitress.java)  
 ![](https://i.imgur.com/xTvQYut.png)  
 
-
-
 ```java
+/**
+  * <p> Iterator from java package </p>
+  */
 public interface Iterator{
     boolean hasNext()
     MenuItem next()
     void remove() // the remove element method 
 }
 
-// we add remove method in our DinerMenuIterator
+/**
+  * we add {@code remove()} method in our DinerMenuIterator
+  */
 public class DinerMenuIterator implements Iterator{
 	MenuItem[] list ;
 	int position = 0;
@@ -324,30 +327,11 @@ public class DinerMenuIterator implements Iterator{
 		}
 	}
 }
-```
 
-Update our Waitress
-```java
-public class Waitress{
-    Menu pancakeHouseMenu;
-    Menu dinerMenu;
-    
-    //..
-    
-    public void printMenu(){
-        /**
-          * The following declaration violates the open closed principle
-	  */
-        Iterator<MenuItem> pancakeIter = pancakeHouseMenu.createIterator();
-        Iterator<MenuItem> dinerIter = dinerMneu.createIterator();
-        //...
-    }
-    //..
-}
-```
 
-To Follow the open close principle 
-```java
+/**
+  * <p> update the Waitress </p>
+  */
 import java.util.Iterator;
 import java.util.ArrayList;
  
@@ -444,10 +428,10 @@ public class Waitress {
 		return false;
 	}
 }
-```
 
-client
-```java
+/**
+  * <p> client </p>
+  */
 public class MenuTestDrive {
 	public static void main(String args[]) {
 		PancakeHouseMenu pancakeHouseMenu = new PancakeHouseMenu();
@@ -479,20 +463,43 @@ public class MenuTestDrive {
 ```
 
 ## Composite Pattern 
-
 [REF](https://fjp.at/design-patterns/composite)  
+[Ref_inTW](https://dotblogs.com.tw/pin0513/2011/01/16/20838)
 
-**The Composite Pattern allows us to build structures of objects in the form of trees that contain both compositions of objects and individual objects as nodes.**    
-Using a composite structure, we can apply the same operations over both composites and individual objects. 
-> In other words, in most cases we can ignore the differences between compositions of objects and individual objects.  
+By applying iterator pattern we break open closed principle in `Waitress` class
+```java
+public class Waitress{
+    Menu pancakeHouseMenu;
+    Menu dinerMenu;
+    Menu dessert;
+    
+    //..
+    
+    public void printMenu(){
+        /**
+          * <p> The following declaration violates the open closed principle </p>
+	  * <p> Once we get a new menu we must add 
+	  *     a new {@code Iterator<MenuItem>} again. <p>
+	  */
+        Iterator<MenuItem> pancakeIter = pancakeHouseMenu.createIterator();
+        Iterator<MenuItem> dinerIter = dinerMneu.createIterator();
+	
+	Iterator<MenuItem> dessert = dessertMenu.createIterator(); // add new Menu
+        
+	// ...
+    }
+    //..
+}
+```
+- For such problem we can use composite pattern
 
 > Coomposite-Muster  
 ![](https://i.imgur.com/FddV3XT.png)  
 ![image](https://user-images.githubusercontent.com/68631186/126360058-040544ea-5d83-4431-8616-ad68f4eb3028.png)  
-
+- **The Composite Pattern allows us to build structures of objects in the form of trees that contain both compositions of objects and individual objects as nodes.**  
 
 ## Example
-- A scenario for the menu inserting a new menu under it
+A scenario for the menu inserting a new menu under it  
 
 We create a sub-menu(named dessert Menus) under dinermenu with tree-structure as the following  
 ![](https://i.imgur.com/Fc2nwQt.png)  
@@ -502,13 +509,21 @@ We create a sub-menu(named dessert Menus) under dinermenu with tree-structure as
 > ![image](https://user-images.githubusercontent.com/68631186/126358373-a6853e2d-93a1-40e5-88c1-c9737ce8b575.png)  
 > 2. Print Part of Tree Structure  
 > ![image](https://user-images.githubusercontent.com/68631186/126358410-47defacc-3828-4783-b45c-8ab6f4ecbf81.png)  
+- Using a composite structure, we can apply the same operations over both composites and individual objects.  
+	> In other words, in most cases we can ignore the differences between compositions of objects and individual objects.(e.g. print whole structure or just individual ones.)  
 
-
-#### The role of the MenuComponent abstract class is to provide an interface for the leaf nodes and the composite nodes.  
-It should provide a default implementation of the methods so that if the MenuItem (the leaf) or the Menu(the composite) doesn't want to implement some of the methods.**(node and leaf extends same class but have different behaviour)**  
+#### The role of the MenuComponent abstract class 
+As we can see from pattern it provides an interface for the leaf nodes and the composite nodes.  
+- **it should provide a default implementation of the methods** so that if the MenuItem (the leaf) or the Menu(the composite) doesn't want to implement some of the methods.**(node and leaf extends same class but have different behaviour)**  
 ![](https://i.imgur.com/T4ENYIX.png)  
+
+For example
 ```java
+/**
+  * <p>  define our default implementation of the methods </p>
+  */
 public abstract class MenuComponent {
+
 	public void add(MenuComponent menuComponent) {
 		throw new UnsupportedOperationException();
 	}
@@ -536,10 +551,16 @@ public abstract class MenuComponent {
 		throw new UnsupportedOperationException();
 	}
 }
-```
 
-Implementing the MenuItems(the Leaf)
-```java
+/**
+  * <p> The Leaf </p>
+  * <p> It needs </p>
+  * <li>{@code getName} </li>
+  * <li>{@code getDescription} </li>
+  * <li>{@code getPrice} </li>
+  * <li>{@code isVegetarian} </li>
+  * <li>{@code print} </li>
+  */
 public class MenuItem extends MenuComponent{
 	String name;
 	String description;
@@ -573,6 +594,13 @@ public class MenuItem extends MenuComponent{
 		return vegetarian;
 	}
   
+        /**
+	  * @Description
+	  *    Print this the item on a certain menu
+	  *   <li>name</li>
+	  *   <li>price</li>
+	  *   <li>description</li>
+	  */
 	public void print() {
 		System.out.print("  " + getName());
 		if (isVegetarian()) {
@@ -582,11 +610,21 @@ public class MenuItem extends MenuComponent{
 		System.out.println("     -- " + getDescription());
 	}
 }
-```
 
-Implementing the (composite)Menu
-- Each menu has menu items stored in different types of collections (aggregates such as ArrayList, standard array or HashMap).
-```java
+
+/**
+  * <p> Composite Objects </p>
+  * <p> Each menu(Component) has different items stored 
+  * 	in different types of collections 
+  * 	(aggregates such as ArrayList, standard array or HashMap). </p>
+  * <p> It needs to implement the following methods </p>
+  * <li> {@code add} </li>
+  * <li> {@code remove} </li>
+  * <li> {@code getChild} </li>
+  * <li> {@code getName} </li>
+  * <li> {@code getDescription} </li>
+  * <li> {@code print} </li>
+  */
 import java.util.Iterator;
 import java.util.ArrayList;
 public class Menu extends MenuComponent {
@@ -619,39 +657,65 @@ public class Menu extends MenuComponent {
 		return description;
 	}
  
+	/**
+	  * @Description
+	  *   Print The Menu's
+	  *   <li> name <li>
+	  *   <li> description <li>
+	  *   and iterate each items in this menu
+	  */
 	public void print() {
 		System.out.print("\n" + getName());
 		System.out.println(", " + getDescription());
 		System.out.println("---------------------");
-  
+  	
+		/**
+		  * <p> Iterate of an Array List via {@code iterator()} </p>
+		  */ 
 		Iterator<MenuComponent> iterator = menuComponents.iterator();
 		while (iterator.hasNext()) {
-			MenuComponent menuComponent = 
-				(MenuComponent)iterator.next();
+			MenuComponent menuComponent = (MenuComponent)iterator.next();
 			menuComponent.print();
 		}
 	}
 }
 ```
 
-Now Waitress with composite pattern
+Now Waitress with composite pattern which sticks to the open closed principal
 ```java
 public class Waitress{
+    /**
+      * <p> All menus contains 
+      *     in the Tree Structure </p>
+      */
     MenuComponent allMenus;
+    
     public Waitress(MenuComponent allMenus){
         this.allMenus = allMenu;
     }
     public void printMenu()
     {
+    	/**
+	  * Compare with adding {@code Iterator<MenuIitem>}
+	  * for each menu 
+	  */
         allMenus.print();
     }
 }
-```
 
-Let's run 
-```java
+/**
+  * <p> Client </p>
+  */
 public class MenuTestDrive{
 public static void main(String args[]) {
+    
+    /**
+      * Create Menus 
+      * <li> PACAKE HOUSE MENU </li>
+      * <li> DINER MENU </li>
+      * <li> CAFE MENU </li>
+      * <li> DESSERT MENU </lI>
+      */
     MenuComponent pancakeHouseMenu = 
         new Menu("PANCAKE HOUSE MENU", "Breakfast");
     MenuComponent dinerMenu = 
@@ -662,18 +726,26 @@ public static void main(String args[]) {
         new Menu("DESSERT MENU", "Dessert of course!");
     MenuComponent coffeeMenu = new Menu("COFFEE MENU", "Stuff to go with your afternoon coffee");
 
+    /**
+      * Put all the menus in allMenus
+      */
     MenuComponent allMenus = new Menu("ALL MENUS", "All menus combined");
-
     allMenus.add(pancakeHouseMenu);
     allMenus.add(dinerMenu);
     allMenus.add(cafeMenu);
+    
+    /**
+      * Create a menu under a menu
+      */
     pancakeHouseMenu.add(new MenuItem(
             "K&B's Pancake Breakfast", 
             "Pancakes with scrambled eggs, and toast", 
             true,
             2.99));
             
-    //... so on
+    /**
+      * Ask Waitress show the menus
+      */
     Waitress waitress = new Waitress(allMenus);
     waitress.printMenu();
             
@@ -682,109 +754,172 @@ public static void main(String args[]) {
 - we use an internal iterator inside the Menu class to recursively to print the tree structure (of menus), because of that we actually have less control to iterate over components
 
 
-## Discussion   
-The Composite Pattern takes the Single Responsibility design principle and trades it for transparency.   
+## Choose OSR or Transparency for Composite pattern?
+[Detail](https://ithelp.ithome.com.tw/articles/10242929)
 
-> One Single Responsibility
-> 一個類別只能有一個改變的原因。你做你該做的事，我做我該做的事。你我互不干擾(e,g. menuItem and menu)  
+**The Composite Pattern takes the Single Responsibility design principle and trades it for transparency.**  
 
-> Transparency
-> **By allowing the Component interface to contain the child management operations and the leaf operations**.  
-> A client can treat both composites(Menu) and leaf nodes(MenusItem) uniformly; so whether an element is a composite node or leaf becomes transparent to the client(client have no further details about them).  
 
-Given we have both types of operations in the Component class, we lose a bit of safety because a client might try to do something inappropriate or meaningless on an element (like try to add a menu to a menu item). 
 
-This is a design decision; we could take the design in the other direction and separate out the responsibilities into interfaces.  
-- This would make our design safe, in the sense that any inappropriate calls on elements would be caught at compile time or run-time, but we’d lose transparency and our code would have to use conditionals and the `instanceof` operator.  
+### One Single Responsibility
+一個類別只能有一個改變的原因。你做你該做的事，我做我該做的事。你我互不干擾
 
-## A Composite Iterator (External Iterator)  
-To have more control for iterating like iterating all the items are vegetarian.  
+#### Composite Pattern that uses OSR  
+![image](https://user-images.githubusercontent.com/68631186/126422735-b5c4efc5-d836-4320-8971-003ae86c9143.png)  
+
+For example  
+Although MenuItem and MenuComponent both extend the same abstract class but  
+- `MenuItem` is leaf ( it doesn't implement add/remove method)  
+- `MenuComponent` is Composite Objects (it implements add/remove method)  
+ 
+### Transparency
+**By allowing the Component interface to contain the child management operations and the leaf operations**.  
+
+#### Composite Pattern that uses Transparency
+![image](https://user-images.githubusercontent.com/68631186/126422678-b8a4975f-3f28-4c05-b26b-d97f32b535c1.png)
+
+**A client can treat both composites(MenuCoponent) and leaf nodes(MenusItem) uniformly**;  so whether an element is a composite node or leaf becomes transparent to the client(client have no further details about them).  
+
+**Given we have both types of operations in the Component class, we lose a bit of safety because a client might try to do something inappropriate or meaningless on an element (e.g. leaf can call `remove` method).**  
+
+### Descision 
+
+It is a design decision; we could take the design in the other direction and separate out the responsibilities into interfaces.  
+This would make our design safe, in the sense that any inappropriate calls on elements would be caught at compile time or run-time, but we’d lose transparency and our code would have to use conditionals and the `instanceof` operator.  
+
+## The `Composite` with `Iterator` pattern (External Iterator)  
+To have more control to iterate all the items which are vegetarian.  
 
 we add new method `createIterator()` in the MenuComponent
 ```java
 public interface MenuComponent{
-    //...
+    // ...
     Iterator<MenuComponent> createIterator()
 }
 
-/**
-  * <P> A menu contains many element (items) </p>
-  */ 
+
 public class Menu extends MenuComponent {
 	Iterator<MenuComponent> iterator = null;
-	ArrayList<MenuComponent> menuComponents = 
-        new ArrayList<MenuComponent>();
+	ArrayList<MenuComponent> menuComponents = new ArrayList<MenuComponent>();
+	
 	//...
   
+        
 	public Iterator<MenuComponent> createIterator() {
 		if (iterator == null) {
-			iterator = 
-                new CompositeIterator(menuComponents.iterator());
+			/**
+			  * <p> Push the the menuComponent to the stack </p>
+			  */
+			iterator = new CompositeIterator(menuComponents.iterator());
 		}
 		return iterator;
 	}
 }
 
 /**
-  * <p> A menuItem is an element </p>
+  * <p> A menuItem is an element(the leaf) </p>
   * <p> An element can't be iterated </p>
   */
 public class MenuItem extends MenuComponent{
+    
     //....
+    
+    /**
+      * @Description
+      *     In case a item object uses {@code createIterator}
+      * @return Null iterator
+      */
     public Iterator<MenuComponent> createrIterator(){
         return new NullIterator()
     }
 }
 ```
 
-### The `Null` iterator
+### null iterator implementation
 
-Because `MenuItem` has nothing to iterate over, so We got two choices to solve such problem  
-1. return null from `createIterator()`
-2. return an iterator that always return false whe `hasNext()` is called
+Because `MenuItem` has nothing to iterate over, so we got two choices to solve such problem  
+1. Return `null` from `createIterator()`
+2. Return an iterator that always return false whe `hasNext()` is called
 ```java
-public class NullIterator implements <MenuComponent>{
-    public Object next(){
-        return null;
-    }
-    public boolean hasNext(){
-        return false;
-    }
-    public void remove(){
-        throw new UnsupportedOperationException();
-    }
+public class NullIterator implements Iterator<MenuComponent>{
+
+	public Object next(){
+		return null;
+	}
+	public boolean hasNext(){
+		return false;
+	}
+	
+    	/*
+	 * No longer needed as of Java 8
+	 * 
+	 * (non-Javadoc)
+	 * @see java.util.Iterator#remove()
+	 * 
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
+	*/
 }
 ```
 
-### To traverse the tree
+### CompositeIterator
+
 Composite Iterator got the job of iterating over the MenuItems in the Component and of making sure all the child Menus(grandson Menus, and so on) are included
 ```java
 public class CompositeIterator implements Iterator{
-    Stack<Iterator<MenuComponent>> stack =
-        new Stack<Iterator<MenuComponent>>();
-    public CompositeIterator(Iterator iterator){
-        stack.push(iterator);
-    }
-    //....
+	Stack<Iterator<MenuComponent>> stack = new Stack<Iterator<MenuComponent>>();
+   
+	public CompositeIterator(Iterator<MenuComponent> iterator) {
+		stack.push(iterator);
+	}
+   
+	public MenuComponent next() {
+		if (hasNext()) {
+			Iterator<MenuComponent> iterator = stack.peek();
+			MenuComponent component = iterator.next();
+			stack.push(component.createIterator());
+			return component;
+		} else {
+			return null;
+		}
+	}
+  
+	public boolean hasNext() {
+		if (stack.empty()) {
+			return false;
+		} else {
+			Iterator<MenuComponent> iterator = stack.peek();
+			if (!iterator.hasNext()) {
+				stack.pop();
+				return hasNext();
+			} else {
+				return true;
+			}
+		}
+	}
 }
 ```
 
 Now the waitress can use the composite iterator to show which items are vegetarian  
 ```java
 public class Waitress{
-    //...
-    public void prinVegetarianMenu(){
-        Iterator<MenuComponent> itr = allMenus.createIterator();
-        //...
-        while(itr.hasNext()){
-            MenuComponent menuComponent = itr.next();
-            try{
-                if(menuComponent.isVegetarian()){
-                    menuComponent.print();
-                }
-            }catch (UnspportedOperationException e) {}
-        }
-    }
+	
+	//...
+	
+	public void printVegetarianMenu() {
+		Iterator<MenuComponent> iterator = allMenus.createIterator();
+
+		System.out.println("\nVEGETARIAN MENU\n----");
+		while (iterator.hasNext()) {
+			MenuComponent menuComponent = iterator.next();
+			try {
+				if (menuComponent.isVegetarian()) {
+					menuComponent.print();
+				}
+			} catch (UnsupportedOperationException e) {}
+		}
+	}
 }
 ```
 
