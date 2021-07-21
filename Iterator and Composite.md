@@ -175,18 +175,19 @@ public class ArrayIterator implements Iterator{
 		return items.length > position;
 	}
 }
+```
 
-
+```
 /**
-  * <p> Menu that creats Iterator </p>
+  * <p> Menu that creats Iterator method</p>
   */
 public interface Menu{
 	Iterator createIterator();
 }
 
 /**
-  * <p> Implatement our PackeHouseMenu and DinerMenuy 
-  *	with Menu for create an Iterator </p>
+  * <p> PackeHouseMenu and DinerMenuy implement 
+  *	Menu interface {@code createIterator()}</p>
   */
 public class PancakeHouseMenu implements Menu{
 	//..
@@ -202,10 +203,83 @@ public class DinerMenu implements Menu{
 		return new DinerMenuIterator(menuItems);
 	}
 }
+
+/**
+  * <p> Iterators for Certain Menu
+  * 	For example iterator for 
+  * 	the structure of menu is array (like DinerMenuIterator) </p>
+  */
+
+// convert the array type to iterator
+public class DinerMenuIterator implements Iterator {
+	MenuItem[] items;
+	int position = 0;
+ 
+	public DinerMenuIterator(MenuItem[] items) {
+		this.items = items;
+	}
+ 
+	public MenuItem next() {
+		/*
+		MenuItem menuItem = items[position];
+		position = position + 1;
+		return menuItem;
+		*/
+		
+		// or shorten to 
+		return items[position++];
+	}
+ 
+	public boolean hasNext() {
+		/*
+		if (position >= items.length || items[position] == null) {
+			return false;
+		} else {
+			return true;
+		}
+		*/
+		
+		// or shorten to
+		return items.length > position;
+	}
+}
+
+// covert ArrayList to iterator
+public class PancakeHouseMenuIterator implements Iterator {
+	List<MenuItem> items;
+	int position = 0;
+ 
+	public PancakeHouseMenuIterator(List<MenuItem> items) {
+		this.items = items;
+	}
+ 
+	public MenuItem next() {
+		/* 
+		MenuItem item = items.get(position);
+		position = position + 1;
+		return item;
+		*/
+		// or shorten to:
+		return items.get(position++);
+	}
+ 
+	public boolean hasNext() {
+		/*
+		if (position >= items.size()) {
+			return false;
+		} else {
+			return true;
+		}
+		*/
+		// or shorten to:
+		return items.size() > position;
+	}
+}
 ```
 -  `MenuItem` Class : Methods to set up each meal's name,description and price
 -  `Menu` Interface : Create an Iterator method (so the menus can be used as Iterator)
 -  `Iterator` Interface : (adapter pattern) Different structure menus can use the same methods(e.g `next()`, `hasNext()` ... etc)
+
 
 Now Watiress can use methods 
 ```java
@@ -284,11 +358,28 @@ public class Waitress{
 		return false;
 	}
 }
+
+/**
+  * client
+  */
+public class MenuTestDrive {
+	public static void main(String args[]) {
+		Menu pancakeHouseMenu = new PancakeHouseMenu();
+		Menu dinerMenu = new DinerMenu();
+
+			Waitress waitress = new Waitress(pancakeHouseMenu, dinerMenu);
+
+			// With iterators
+			waitress.printMenu();
+
+			printMenus();
+	}
+}
 ```
 
 ## Using `java.util.Iterator` package to resize our Menus
 
-[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/blob/master/src/headfirst/designpatterns/iterator/dinermergeri/Waitress.java)  
+[SourceCode](https://github.com/bethrobson/Head-First-Design-Patterns/tree/master/src/headfirst/designpatterns/iterator/dinermergeri)  
 ![](https://i.imgur.com/xTvQYut.png)  
 
 ```java
