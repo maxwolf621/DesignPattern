@@ -101,7 +101,7 @@ public class waitress{
     }
     
     //For dinerMenu 
-    for(int i = 0; i < lunchItems.lengtho ; ++i){
+    for(int i = 0; i < lunchItems.length ; ++i){
         MenuItem menuItem = lunchItem[i];
 	//...
     }
