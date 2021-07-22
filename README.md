@@ -58,6 +58,7 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Command](Command.md)  
 * [Memento](Memonto.md)  
 * [Strategy](Strategy.md)
+  > ![](https://camo.githubusercontent.com/10a9e43ddadf8f1f96bed1a2f5609eec70e6b30654317498574791c8926c4ead/68747470733a2f2f692e696d6775722e636f6d2f51736b46706a422e706e67)
 * [Template](Template.md)
 * [Observer](Observer.md)
 * [State](State.md)
