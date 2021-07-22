@@ -155,20 +155,20 @@ public class StarbuzzCoffee {
 		System.out.println(beverage.getDescription()
 				+ " $" + String.format("%.2f", beverage.cost()));
 
+	       /**
+		 * <p> Using decoration pattern </p>
+		 * <p> We can change(decorate) 
+		 *     object beverage2 dinamically with </p> 
+		 * <li> Mocha </li>
+		 * <li> Whip </li>
+		 */
 		Beverage beverage2 = new DarkRoast();
-		/**
-		* <p> Using decoration pattern </p>
-		* <p> We can change(decorate) 
-		*     object beverage2 dinamically with </p> 
-		* <li> Mocha </li>
-		* <li> Whip </li>
-		*/
 		beverage2 = new Mocha(beverage2);
 		beverage2 = new Whip(beverage2);
 		System.out.println(beverage2.getDescription()
 				+ " $" + String.format("%.2f", beverage2.cost()));
 
-		/**
+	       /**
 		* <p> Decorate the beverage3 with </p>
 		* <li> Soy </li>
 		* <li> Mocha </li>
