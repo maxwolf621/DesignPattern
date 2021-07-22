@@ -1,5 +1,5 @@
 ###### tags: `Design Pattern`
-# Dependency
+# Dependency Injection
 [TOC]
 
 [From StackOverflow](https://stackoverflow.com/questions/3334578/what-is-dependency-injection)  
