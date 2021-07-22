@@ -16,8 +16,12 @@ The Decorator Pattern provides an alternative to subclassing for extending behav
   *     by concreteComponent and abstraction for decoration </p>
   */
 public abstract class Beverage {
+	
+	// Beverage size
 	public enum Size { TALL, GRANDE, VENTI };
+	// Default Size
 	Size size = Size.TALL;
+	
 	String description = "Unknown Beverage";
 
 	public String getDescription() {
@@ -65,12 +69,12 @@ public class DarkRoast extends Beverage {
   */
 public abstract class CondimentDecorator extends Beverage {
 	
-  /**
-    * <p> To decorate the concrete component </p>
-    * <strong> follow Di principle </strong>
-    */
-  public Beverage beverage;
-  
+	/**
+	* <p> To decorate the concrete component </p>
+	* <strong> follow DI principle </strong>
+	*/
+	public Beverage beverage;
+
 	public abstract String getDescription();
 
 	public Size getSize() {
@@ -78,13 +82,17 @@ public abstract class CondimentDecorator extends Beverage {
 	}
 }
  
-/****************************************************************
-  * <p> Using ConcreteDecorator to wrap the concrete components *
-  *     which gives them new behaviors. </p>                    *
+/*****************************************************************
+  * Using ConcreteDecorator to wrap the concrete components      *
+  * which gives them new behaviors.	                         *
   ***************************************************************/
   
 /**
-  * Decorate the beverage with whip
+  * <p> Decorate the beverage with 
+  *     <li> Whip </li>  
+  *	<li> Soy  </li>
+  *	<li> Mocha<li> 
+  * </p>
   */
 public class Whip extends CondimentDecorator {
 	public Whip(Beverage beverage) {
