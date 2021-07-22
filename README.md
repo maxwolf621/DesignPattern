@@ -8,16 +8,14 @@
 * [Dependency Injection](DependencyInjection.md)
 
 # Principle
-
-[Principle](Principle.md)
-- SRP(Single Responsibilities Principle)
-- ISP(Interface Segregation Principle)
-- DIP(Dependence Inversion Principle)
-- LSK(Liskov Substitution Principle)
-- OCP(Open Close Principle)
-- DP (Demeter Principle)
-- CARP	Composite/Aggregate Reuse Principle
-- LKP	Least Knowledge Principle	
+- [Principle](Principle.md)
+  - SRP(Single Responsibilities Principle)
+  - ISP(Interface Segregation Principle)
+  - DIP(Dependence Inversion Principle)
+  - LSK(Liskov Substitution Principle)
+  - OCP(Open Close Principle)
+  - CARP	Composite/Aggregate Reuse Principle
+  - LKP	Least Knowledge Principle/ DP (Demeter Principle)
 
 # Creational Pattern
 Creational patterns provide various object creation mechanisms, which increase flexibility and reuse of existing code.
@@ -49,6 +47,7 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Composite](Iterator_and_Composite.md)
 * [Flyweight](Flyweight.md)
 * [Proxy](Proxy.md)
+* [Decoration](Decoration.md)
 
 # Behavioral Pattern
 - In these design patterns, the interaction between the objects should be in such a way that they can easily talk to each other and still should be loosely coupled.
