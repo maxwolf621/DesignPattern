@@ -2,9 +2,8 @@
 # Dependency
 [TOC]
 
-
-[references](https://stackoverflow.com/questions/3334578/what-is-dependency-injection)
-[wiki](https://en.wikipedia.org/wiki/Dependency_injection)
+[From StackOverflow](https://stackoverflow.com/questions/3334578/what-is-dependency-injection)  
+[From WIKI](https://en.wikipedia.org/wiki/Dependency_injection)  
 
 ## Example without dependency Injection
 
@@ -17,19 +16,20 @@ public class Client {
     private ExampleService service;
 
     /**
-     * <p> 
-     * Specify a specific implementation 
-     * in the constructor instead of 
-     * using dependency injection 
-     * </p>
+     * <p>  Specify a specific implementation 
+     *      in the constructor instead of 
+     *      using dependency injection </p>
      */
     Client() {
+        /**
+          * <strong> Hard code </strong>
+          */
         service = new ExampleService();
     }
 
     /**
      * @Description
-     * Method within this client that uses the services
+     *      use {@code service.getName}
      */
     public String greet() {
         return "Hello " + service.getName();
@@ -40,7 +40,7 @@ public class Client {
 ## Types of dependency injection
 There are at least three ways a client object can receive a reference to an external module
 
-### 1. Constructor Injection 
+### Constructor Injection 
 The dependencies are provided through a client's class constructor.  
 
 ```java
@@ -52,7 +52,7 @@ class Car{
 }
 
 /**
- *  With DI
+ *  <p> With DI </p>
  */ 
 class Car{
   /**
@@ -60,7 +60,8 @@ class Car{
    * <p> Inject an Instance of Battery (dependency of car) at runtime </p>
    */
   private Wheel wh;  
-  private Battery bt;  
+  private Battery bt;
+  
   Car(Wheel wh,Battery bt) {
       this.wh = wh;
       this.bt = bt;
@@ -70,7 +71,7 @@ class Car{
 }
 ```
 
-### 2. Setter Injection
+### Setter Injection
 The client exposes a setter method that the injector uses to inject the dependency.
 
 ```java
@@ -78,6 +79,10 @@ public Car{
 
   private Wheel wh; 
   private Battery bt; 
+  
+  /**
+    * <p> Constructor Injection </p>
+    */
   Car(Wheel wh,Battery bt) {
       this.wh = wh;
       this.bt = bt;
@@ -85,7 +90,7 @@ public Car{
 
   /**
    * @Description
-   *   Use Setter Injection
+   *   The Setter Injection
    */
   void setWheel(Wheel wh) {
       this.wh = wh;
@@ -97,7 +102,7 @@ public Car{
 ```
 
 
-### 3. Interface Injection
+### Interface Injection
 
 The dependency's interface provides an injector method that will inject the dependency into any client passed to it.  
 
@@ -112,6 +117,7 @@ public class Car
     public Car()
     {
         /**
+         * <p> HARD CODE </p>
          * Car is dependent on GasEngine 
          */
         GasEngine engine = new GasEngine();
@@ -127,6 +133,8 @@ public class GasEngine
     }
 }
 
+/**------------------------------------**/
+
 /**
  * <p> Using Interface Dependency </p>
  */ 
@@ -135,7 +143,7 @@ public class GasEngine
     void Start();
 }
 
-public class GasEngine : IEngine
+public class GasEngine implements IEngine
 {
     public void Start()
     {
@@ -143,7 +151,7 @@ public class GasEngine : IEngine
     }
 }
 
-public class ElectricityEngine : IEngine
+public class ElectricityEngine implements IEngine
 {
     public void Start()
     {
@@ -185,8 +193,8 @@ public class Car
 
 ## The Advantages of DI
 
-- decoupling the creation of object (in other word, separate usage from the creation of object)
-- ability to replace dependencies (eg: Wheel, Battery) without changing the class that uses it(Car)
-- promotes **Code to interface not to implementation** principle
-- ability to create and use mock dependency during test (if we want to use a Mock of Wheel during test instead of a real instance.. we can create Mock Wheel object and let DI framework inject to Car)
+- Decoupling the creation of object (in other word, separate usage from the creation of object)
+- Ability to replace dependencies (eg: Wheel, Battery) without changing the class that uses it(Car)
+- Promotes **Code to interface not to implementation** principle
+- Ability to create and use mock dependency during test (if we want to use a Mock of Wheel during test instead of a real instance.. we can create Mock Wheel object and let DI framework inject to Car)
 
