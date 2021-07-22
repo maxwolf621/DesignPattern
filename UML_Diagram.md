@@ -1,4 +1,4 @@
-# UML
+# UML diagram
 
 [Introduction of UML](https://spicyboyd.blogspot.com/2018/07/umlclass-diagram-relationships.html)  
 [Composition and aggregation](https://www.tutorialspoint.com/difference-between-composition-and-aggregation)  
@@ -51,13 +51,13 @@ Association
 
 ## Realization / Implementation 
 
-Child need to implementation/use parent's methods
-![image](https://user-images.githubusercontent.com/68631186/126583945-e7bb0a51-86a1-42a1-8070-f608579dd95a.png)
+Child needs to implement/use parent's methods  
+![image](https://user-images.githubusercontent.com/68631186/126583945-e7bb0a51-86a1-42a1-8070-f608579dd95a.png)  
 
 ## Generalization / Inheritance
 
-Child `has`/Inheritance parent's methods
-![image](https://user-images.githubusercontent.com/68631186/126583992-3c0bc38c-37d2-4e5b-b353-f80047bd9b88.png)
+Child `has`/inherits parent's methods  
+![image](https://user-images.githubusercontent.com/68631186/126583992-3c0bc38c-37d2-4e5b-b353-f80047bd9b88.png) 
 
 
 ## Degree of Coupling 
