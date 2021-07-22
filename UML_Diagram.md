@@ -17,6 +17,10 @@
 #### Dependency : uses the object
 ![image](https://user-images.githubusercontent.com/68631186/126490824-cc757e91-15d9-4cc8-a912-91e6f7960e62.png)
 
+[According to](https://stackoverflow.com/questions/1230889/difference-between-association-and-dependency)
+- An association almost always implies that one object has the other object as a **field/property/attribute** (terminology differs).  
+- **A dependency typically (but not always) implies that an object accepts another object as a method parameter, instantiates, or uses another object.** 
+  > A dependency is very much implied by an association.  
 
 ## Composistionn and Aggregation
 
