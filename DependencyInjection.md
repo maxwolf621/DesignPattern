@@ -118,7 +118,7 @@ public class Car
     {
         /**
          * <p> HARD CODE </p>
-         * Car is dependent on GasEngine 
+         * <p> Car is dependent on {@code GasEngine} only </p>
          */
         GasEngine engine = new GasEngine();
         engine.Start();
@@ -164,7 +164,8 @@ public class Car
     /**
      * <strong> Car class is dependent on only the IEngine interface, 
      *          not a specific implementation of engine </strong>
-     * <p> It means the can can have GasEngine or ElectricityEngine </p>
+     * <p> It means the parameter that is passed in <pre> new Car </pre> 
+     *     can be {@code GasEngine} or {@code ElectricityEngine}   </p>
      * 
      * For example 
      * <pre> 
