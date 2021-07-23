@@ -101,7 +101,7 @@ This also can reduce `synchronization` costs
 
 It would first check if an instance of singleton is created, and if not (`== null`) then using `synchronized` to create one. 
 This means using `synchronized` at the first time for creating a unique instance of singleton
-```java=
+```java
 /**
   * @apinote
   *   Only creating <strong > synchronized </strong> Singleton <strong> one only time </strong>
@@ -109,8 +109,10 @@ This means using `synchronized` at the first time for creating a unique instance
 public class Singleton {
     private volatile static Singleton unique;
     private Singleton() {}
-    // using synhronized only once
-    //     while creating a instance
+    /**
+      * <p> using <pre> synhronized </pre> only once
+      *     while creating a instance
+      */
     public static Singleton getInstance() {
         if (unique == null) {
             synchronized (Singleton.class) {
