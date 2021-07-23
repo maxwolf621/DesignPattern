@@ -1,16 +1,28 @@
-# Singleton
 ###### tags: `Design Pattern`
+# Singleton
 [TOC]
+   
+**The Singleton Pattern ensures a class has only one instance, and provides a global point of access to it.**
+> pattern UML  
+> ![](https://i.imgur.com/ZhgkHCD.png)  
 
-> Singleton Pattern   
-> : Ensures a class has **only one instance**, and provides a global point of access to it.  
+Examples where singletons are useful are:
+- thread pools
+- caches
+- dialog boxes
+- objects that handle preferences and registry settings
+- objects used for logging
+- objects that act as device drivers to devices like printers and graphics cards.
 
-> pattern  
-> : ![](https://i.imgur.com/ZhgkHCD.png)  
+In fact, for many of these types of objects, if we were to instantiate more than one we’d run into all sorts of problems like incorrect program behavior, overuse of resources, or inconsistent results.  
+By making use of the Singleton one can assure that every object in an application is making use of the same global resource.
+
 
 ## Lazy Initialization 
 The singleton is similar to global variables but without the downside of getting created at program start like global variables. 
 Instead, ***the singleton can be created only when it is needed, which can avoid time consuming initialization.***
+
+> if we never need the instance, it never gets created. This is lazy instantiation.
 
 ## Responsibilities 
 
@@ -18,7 +30,6 @@ Instead, ***the singleton can be created only when it is needed, which can avoid
 2. It is also responsible for whatever its main role is intended. 
 
 ## `synchronized` singleton pattern
-
 - `synchronized` 以免共用存取時，發生資料的競速（Race condition）問題。
 
 a singleton pattern without **synchronized**
@@ -52,9 +63,12 @@ public class singleton{
     //..
 }
 ```
+- In this case, Singleton is instantiated through its private constructor and assigned to to `uniqueInstance`. 
+- If uniqueInstance wasn’t null, then it was previously created and is therefore returned. Because the `getInstance()` is a `static` method, it allows access from anywhere in the code using `Singleton::getInstance()`. This is just as easy as accessing a global variable but with the advantage of lazy instantiaion(使用到在創見Instance).
 
-To fix this problem, we just add `synchronized` at ...
-```java=
+
+For Thread Safe we just add `synchronized` at ...
+```java
 public static synchronized singleton getsingleton(){
     //...
 }
