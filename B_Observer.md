@@ -1,17 +1,15 @@
-# Observer 
-
 ###### tags: `Design Pattern`
-
+# Observer 
 This pattern defines a one-to-many dependency between objects so that when one object changes state, all of its dependents are notified and updated automatically.   
 ![](https://i.imgur.com/EVVQirN.png)  
 
 
 > Pattern UML  
 > ![](https://i.imgur.com/CzsW8oV.png)
+- The Observer Pattern provides an object design where subjects and observers are loosely coupled.  
+	> When two objects are loosely coupled, they can interact,but have very little knowledge of each other  
 
-
-Observer Pattern contains two parts
-
+Observer Pattern contains two parts  
 1. Interface Observable Subject
     > registerObserver(observer o) , add the Observer to list  
     > removeObserver(observer o), remove the Observer from list   
@@ -49,20 +47,17 @@ class subject:
             observer()
 ```
 
-The Observer Pattern provide an object design where subjects and observers are loosely coupled.  
-> When two objects are loosely coupled, they can interact,but have very little knowledge of each other  
+
 
 
 ## Properties
-- The only thing the subject knows about an observer is that it implements a certain interface (the Observer interface). **Mean that The subject doesn’t need to know the concrete class of the observe**     
-    > **So we can add/delete new observers at any time.**
-    > -  Because ==the only thing the subject depends on is a list of objects that implement the Observer interface==, and we also can replace any observer at **run-time** with another observer and the subject will keep purring along.
-
+- The only thing the subject knows about an observer is that it implements a certain interface (the Observer interface). **Mean that The subject doesn’t need to know the concrete observe**     
+    > **So we can add/delete new observers at any time.**  
+    > Because the only thing the subject depends on is a list of objects that implement the Observer interface, and we also can replace any observer at **run-time** with another observer and the subject will keep purring along.
+   
 - We never need to modify the subject to add new types of observers.
-
 - **We can reuse subjects or observers independently of each other**
   > If we have another use for a subject or an observer, we can easily reuse them because the two aren’t tightly coupled.
-
 - Changes to either the subject or an observer will not affect the other. Because the two are loosely coupled.
 
 
