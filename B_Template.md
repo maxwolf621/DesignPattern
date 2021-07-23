@@ -1,5 +1,5 @@
-# Template Method
-
+###### Tags : `Design Pattern`
+# Template Pattern
 ### A pattern without Template Method
 ![image](https://user-images.githubusercontent.com/68631186/125339097-92ea9480-e383-11eb-9d84-c4a599f01186.png)
 - We can keep the common part for the base class via Template Method
@@ -226,21 +226,18 @@ public class BeverageTestDrive {
 ## Hollywood Principle 
 The Hollywood principle gives us a way to prevent dependency rot.
 
-> Dependency rot 
-> : it happens **when you have high-level components depending on low-level components depending on high-level components** depending on sideways components depending on low-level components, and so on.
+> Dependency rot   
+> it happens **when you have high-level components depending on low-level components depending on high-level components** depending on sideways components depending on low-level components, and so on.  
 
+With the Hollywood Principle, we allow low-level components to hook themselves into a system, but the high-level components determine when they are needed.  
 
-With the Hollywood Principle, we allow low-level components
-to hook themselves into a system, but the high-level
-components determine when they are needed.
-
-In other words, the high-level components give the low-level
-components a treatment of `don’t call us, we’ll call you` 
-![](https://i.imgur.com/IKZGoPi.png)
+In other words, the high-level components give the low-level components a treatment of `don’t call us, we’ll call you`   
+![](https://i.imgur.com/IKZGoPi.png)  
 
 
 ## Template Method and Hollywood Principle
-1. Class `CoffeineBeverage` has control over the algorithm for the recipe and calls on the sub-classes only when they are needed
+
+1. **Class `CoffeineBeverage` has control over the algorithm for the recipe and calls on the sub-classes only when they are needed**
 2. Class `Tee` and Class `Coffee` call the abstract directly without being called first
 
 ![](https://i.imgur.com/duKNSFW.png)
