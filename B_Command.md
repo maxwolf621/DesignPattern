@@ -1,8 +1,5 @@
-# Command
-
 ###### tags: `Design Pattern`
-
-
+# Command
 [Java version](https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E5%91%BD%E4%BB%A4.md)
 
 The `invoker` execute the `command` to the `receiver` a certain request to operate a certain task
