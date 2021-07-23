@@ -1,6 +1,5 @@
-# Strategy
-
 ###### tags: `Design Pattern`
+# Strategy
 [Header's example](https://fjp.at/design-patterns/strategy)  
 [Another Example](https://github.com/iluwatar/java-design-patterns/tree/master/strategy)
 
