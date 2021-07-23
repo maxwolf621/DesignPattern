@@ -26,11 +26,11 @@ With this pattern we can avoid such way to create a object
 ObjectX s1 = new ObjectX();  
 ```
 
-* [Factory](Factory.md)
-* [Abstract Factory](AbstractFactory.md) 
-* [Singleton](Singleton.md)
-* [Builder](Builder.md)
-* [Prototype](Prototype.md)
+* [Factory](C_Factory.md)
+* [Abstract Factory](C_AbstractFactory.md) 
+* [Singleton](C_Singleton.md)
+* [Builder](C_Builder.md)
+* [Prototype](C_Prototype.md)
 
 > keyword for creational pattern : `Create`
 
@@ -41,30 +41,30 @@ Structural design patterns are concerned with how classes and objects can be com
 
 > keyword : `Merge` `Combine` 
 
-* [Adapter](adapter.md) 
-* [Bridge](Bridge.md) 
-* [Fascade](Fascade.md)
-* [Composite](Iterator_and_Composite.md)
-* [Flyweight](Flyweight.md)
-* [Proxy](Proxy.md)
-* [Decoration](Decoration.md)
+* [Adapter](S_Adapter.md) 
+* [Bridge](S_Bridge.md) 
+* [Fascade](S_Fascade.md)
+* [Composite](B_IteratorAndComposite.md)
+* [Flyweight](S_Flyweight.md)
+* [Proxy](S_Proxy.md)
+* [Decoration](S_Decoration.md)
 
 # Behavioral Pattern
 - In these design patterns, the interaction between the objects should be in such a way that they can easily talk to each other and still should be loosely coupled.
   > That means the implementation and the client should be loosely coupled in order to avoid hard coding and dependencies.
 
 
-* [Iterator](Iterator_and_Composite.md)  
-* [Command](Command.md)  
-* [Memento](Memonto.md)  
-* [Strategy](Strategy.md)
+* [Iterator](B_IteratorAndComposite.md)  
+* [Command](B_Command.md)  
+* [Memento](B_Memonto.md)  
+* [Strategy](B_Strategy.md)
   > ![](https://camo.githubusercontent.com/10a9e43ddadf8f1f96bed1a2f5609eec70e6b30654317498574791c8926c4ead/68747470733a2f2f692e696d6775722e636f6d2f51736b46706a422e706e67)
-* [Template](Template.md)
-* [Observer](Observer.md)
-* [State](State.md)
-* [Chain of Responsibility](Chain_of_Responsibility.md)
-* [Interpreter](Iterpreter.md)
-* [Mediator](Mediator.md)
-* [Null Object](Null_Object.md)
-* [Visitor](Visitor.md)
+* [Template](B_Template.md)
+* [Observer](B_Observer.md)
+* [State](B_State.md)
+* [Chain of Responsibility](B_ChainOfResponsibility.md)
+* [Interpreter](B_Iterpreter.md)
+* [Mediator](B_Mediator.md)
+* [Null Object](B_Null_Object.md)
+* [Visitor](B_Visitor.md)
 
