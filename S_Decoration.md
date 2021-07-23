@@ -1,3 +1,4 @@
+###### tags : `Design Pattern`
 # Decoration
 [SoruceCode](https://fjp.at/design-patterns/decorator)  
 
