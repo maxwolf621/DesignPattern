@@ -1,8 +1,8 @@
 ###### tags: `Design Pattern` 
 # State  
 
-[Another example](https://refactoring.guru/design-patterns/state)
-[Another example2](https://github.com/iluwatar/java-design-patterns/tree/master/state)
+[Another example](https://refactoring.guru/design-patterns/state)  
+[Another example2](https://github.com/iluwatar/java-design-patterns/tree/master/state)  
 
 > Pattern UML 
 > ![](https://i.imgur.com/P5Ehwfs.png)  
@@ -63,6 +63,8 @@ public class GumballMachine {
 
 If later we would add a new state in `GumballMachine` and this apparently violate open closed principle which menas the programmer need to add this "state" in each action method one by one.  
 By state pattern to avoid such annoying thing  
+
+[sourceCode](https://fjp.at/design-patterns/state)
 ```java
 /**
   * <p> Abstraction stores </p>
@@ -80,16 +82,27 @@ public interface State {
 
 /**
   *<p> Concrete State can be  
-  *    the new state we will add in the future </p>
+  *    the new state we might add in the future </p>
+  *<p> We can also control Context class' object in 
+  *    In Concrete State </p>
   */
 public class SoldoutState implements State{
     //...
+    
 }
 public class SoldState implements State {
     //..
 }
 public class NoQuarterState implements State{
-    //..
+    private GumballMachine gumballMachine;
+    
+    //...
+    
+    public void insertQuarter(){
+    	gumballMachine.setState(gumballMachine.getHasQuarterState());
+    }
+    
+    //...
 }
 public class HasQuarterState implements State{
     //..
