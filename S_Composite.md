@@ -1,6 +1,9 @@
 ###### tags : `Design Pattern`
 # Composite
 
+[sourceCode](https://fjp.at/design-patterns/composite)  
+[anotherExample](https://dotblogs.com.tw/pin0513/2011/01/16/20838)
+
 > Coomposite-Muster  
 > ![image](https://user-images.githubusercontent.com/68631186/126869687-0695af60-0da0-47b4-bba7-5e62701460ae.png)  
 > **The Composite Pattern allows us to build structures of objects in the form of trees that contain both compositions of objects and individual objects as nodes.**  
@@ -215,8 +218,9 @@ public class Waitress{
     public void printMenu()
     {
         /**
-         * Compare with {@link Iterator.md}
-         * for each menu 
+         * Compare with 
+	 * @See <a href="https://github.com/maxwolf621/DesignPattern/blob/main/B_Iterator.md">Iterator pattern</a>
+         * for print menu
          */
         allMenus.print();
     }
