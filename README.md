@@ -44,7 +44,7 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Adapter](S_Adapter.md) 
 * [Bridge](S_Bridge.md) 
 * [Fascade](S_Fascade.md)
-* [Composite](B_IteratorAndComposite.md)
+* [Composite](B_Composite.md)
 * [Flyweight](S_Flyweight.md)
 * [Proxy](S_Proxy.md)
 * [Decoration](S_Decoration.md)
@@ -54,7 +54,8 @@ Structural design patterns are concerned with how classes and objects can be com
   > That means the implementation and the client should be loosely coupled in order to avoid hard coding and dependencies.
 
 
-* [Iterator](B_IteratorAndComposite.md)  
+* [Iterator](B_Iterator.md)  
+  > ![image](https://user-images.githubusercontent.com/68631186/126871777-72aa072f-acbc-4860-9155-e89399e55d1d.png)
 * [Command](B_Command.md)  
 * [Memento](B_Memonto.md)  
 * [Strategy](B_Strategy.md)
@@ -65,6 +66,6 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Chain of Responsibility](B_ChainOfResponsibility.md)
 * [Interpreter](B_Iterpreter.md)
 * [Mediator](B_Mediator.md)
-* [Null Object](B_Null_Object.md)
+* [Null Object](B_NullObject.md)
 * [Visitor](B_Visitor.md)
 
