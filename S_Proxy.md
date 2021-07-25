@@ -1,27 +1,45 @@
 ###### tags: `Design Pattern` 
 # Proxy 
-> Das Muster
-> ![](https://i.imgur.com/gBFwn55.png)
 
-## Remote Proxy
-![](https://i.imgur.com/Bw4YsvT.png)
+Proxy is a structural design pattern that lets you provide a substitute or placeholder for another object.  
 
-`Client` sends Request
-```
-Client 
-    '--request--> proxy 
-                     '--request--> RealSubject
-```
+A proxy controls access to the original object, allowing you to perform something either before or after the request gets through to the original object.
 
-`RealSubject` receives the Request and returns the response to `Client`
-```
-RealSubject
-    '--response--> proxy 
-                    '--response--> Client
-```
-- The proxy acts as a local representative for an object that live in a **different JVM** 
+## Usage
 
-### [Example For Remote Proxy](https://fjp.at/design-patterns/proxy)
+![image](https://user-images.githubusercontent.com/68631186/126905142-44b5392e-e923-4949-baab-4288b341f6d5.png)
+![image](https://user-images.githubusercontent.com/68631186/126905293-b93f2591-71e0-4a71-9cbc-c867ddcc8ff6.png)
+
+![image](https://user-images.githubusercontent.com/68631186/126905236-d3a493a3-8bb0-4c71-89e1-8d5e58623fb1.png)
+A credit card is a proxy for a bank account, which is a proxy for a bundle of cash.  
+Both implement the same interface: they can be used for making a payment. 
+- A consumer feels great because there’s no need to carry loads of cash around. 
+- A shop owner is also happy since the income from a transaction gets added electronically to the shop’s bank account without the risk of losing the deposit or getting robbed on the way to the bank.
+
+
+> Das Muster  
+> ![](https://i.imgur.com/gBFwn55.png)    
+> ![image](https://user-images.githubusercontent.com/68631186/126905330-0b920c6c-7591-4504-8927-b346f7f18409.png)  
+- The Service Interface declares the interface of the Service. 
+    > **The proxy must follow this interface to be able to disguise itself as a service object**.
+- The Service is a class that provides some useful business logic.
+- **The Proxy class has a reference field that points to a service object**. 
+    > After the proxy finishes its processing (e.g., lazy initialization, logging, access control, caching, etc.), 
+    > it passes the request to the service object. **Usually, proxies manage the full lifecycle of their service objects.**
+- **The Client should work with both services and proxies via the same interface.** This way you can pass a proxy into any code that expects a service object.
+
+
+## Remote Proxy  
+![](https://i.imgur.com/Bw4YsvT.png)  
+
+Remote Proxies provide a local representation of another remote object or resource.  
+
+- Remote proxies are responsible not just for representation but also for some maintenance work.  
+    > Such work could include connecting to a remote machine and maintaining the connection, encoding and decoding characters obtained through networking traffic, parsing, etc.
+
+[How to use `rim` package](https://github.com/maxwolf621/JavaNote/blob/main/rim.md)  
+[Example For Remote Proxy](https://fjp.at/design-patterns/proxy)    
+
 
 ## Virtual Proxy
 
