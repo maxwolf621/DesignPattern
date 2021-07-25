@@ -4,11 +4,11 @@
 - [IntroductionTW](https://ianjustin39.github.io/ianlife/design-pattern/singleton-pattern/)
 
 # Basic
-* [UML Diagram](UML_Diagram.md)
-* [Dependency Injection](DependencyInjection.md)
+* [UML Diagram](_UMLDiagram.md)
+* [Dependency Injection](_DependencyInjection.md)
 
 # Principle
-- [Principle](Principle.md)
+- [Principle](_Principle.md)
   - SRP(Single Responsibilities Principle)
   - ISP(Interface Segregation Principle)
   - DIP(Dependence Inversion Principle)
