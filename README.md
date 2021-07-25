@@ -36,9 +36,9 @@ ObjectX s1 = new ObjectX();
 
 
 # Structural Pattern
-###### keyword : `Merge`, `Combine` 
+###### keyword : `Merge`, `Combine` , `Inherit` , `Compose`
 Structural design patterns are concerned with how classes and objects can be composed, to form larger structures.  
-- These patterns focus on, how the classes inherit from each other and how they are composed from other classes.
+**These patterns focus on, how the classes inherit from each other and how they are composed from other classes.**
 
 * [Adapter](S_Adapter.md) 
 * [Bridge](S_Bridge.md) 
@@ -49,7 +49,7 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Decoration](S_Decoration.md)
 
 # Behavioral Pattern
-###### keyword : `dependency injetion`
+###### keyword : `dependency injection`
 - In these design patterns, the interaction between the objects should be in such a way that they can easily talk to each other and still should be loosely coupled.
   > That means the implementation and the client should be loosely coupled in order to avoid hard coding and dependencies.
 
