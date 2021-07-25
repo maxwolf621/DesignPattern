@@ -1,11 +1,14 @@
-# Factory 
+###### tags : `Design Pattern`
+# Abstract Factory
+[Example from cyc](https://github.com/CyC2018/CS-Notes/blob/master/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%20-%20%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82.md)  
+[SourceCode for HeaderFirstDesignPattern](https://fjp.at/design-patterns/factory#abstract-factory)  
+[Example from iluwater](https://github.com/iluwatar/java-design-patterns/tree/master/abstract-factory)
 
-Product -> concrete product -> factory -> method to call factory -> client
-A factory can create concreete product's obj (using enum) that implemntes from Product while it's asked by a client
+Abstract Factory pattern lets us produce families of related objects without specifying their concrete classes.   
 
-
-So first
-To create the product and then concrete product
+> Pattern  UML  
+>![](https://i.imgur.com/0DMqDUd.png)    
+>![](https://i.imgur.com/gWUWtKV.png)    
 
 |Prodcut   | concrete product  | 
 |----------| ------------------| 
@@ -14,16 +17,18 @@ To create the product and then concrete product
 |          | HawaiianPizza     | 
 
 ```cpp
-#include <iostream>
-#include <memory>
-using namespace std;
-
+/**
+  * Interface Product
+  */
 class Pizza {
 public:
 	virtual int getPrice() const = 0;
-	virtual ~Pizza() {};  /* without this, no destructor for derived Pizza's will be called. */
+	virtual ~Pizza() {};  //without this, no destructor for derived Pizza's will be called.
 };
 
+/**
+  * Concrete Product
+  */
 class HamAndMushroomPizza : public Pizza {
 public:
 	virtual int getPrice() const { return 850; };
@@ -41,10 +46,12 @@ public:
 	virtual int getPrice() const { return 1150; };
 	virtual ~HawaiianPizza() {};
 };
-```
 
-A method to call(create) different type of pizza (using enum)
-```cpp 
+
+/**
+  * Factory contains 
+  * a method to create different type of pizza (using enum)
+  */ 
 class PizzaFactory {
 public:
 	enum PizzaType {
@@ -54,17 +61,17 @@ public:
 	};
 	static unique_ptr<Pizza> createPizza(PizzaType pizzaType) {
 		switch (pizzaType) {
-		case HamMushroom: return make_unique<HamAndMushroomPizza>();
-		case Deluxe:      return make_unique<DeluxePizza>();
-		case Hawaiian:    return make_unique<HawaiianPizza>();
+			case HamMushroom: return make_unique<HamAndMushroomPizza>();
+			case Deluxe:      return make_unique<DeluxePizza>();
+			case Hawaiian:    return make_unique<HawaiianPizza>();
 		}
 		throw "invalid pizza type.";
 	}
 };
-```
 
-Now the client can ask for something ...
-```cpp
+/**
+  * client
+  */
 int main()
 {
   /*Create all available pizzas and print their prices*/
