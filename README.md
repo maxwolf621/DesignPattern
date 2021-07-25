@@ -18,6 +18,7 @@
   - LKP	Least Knowledge Principle/ DP (Demeter Principle)
 
 # Creational Pattern
+###### keyword : `new object` , `clone`
 Creational patterns provide various object creation mechanisms, which increase flexibility and reuse of existing code.
 - Creational design patterns are concerned with the way of creating objects. 
 
@@ -32,14 +33,12 @@ ObjectX s1 = new ObjectX();
 * [Builder](C_Builder.md)
 * [Prototype](C_Prototype.md)
 
-> keyword for creational pattern : `Create`
+
 
 # Structural Pattern
-
+###### keyword : `Merge`, `Combine` 
 Structural design patterns are concerned with how classes and objects can be composed, to form larger structures.  
 - These patterns focus on, how the classes inherit from each other and how they are composed from other classes.
-
-> keyword : `Merge` `Combine` 
 
 * [Adapter](S_Adapter.md) 
 * [Bridge](S_Bridge.md) 
@@ -50,6 +49,7 @@ Structural design patterns are concerned with how classes and objects can be com
 * [Decoration](S_Decoration.md)
 
 # Behavioral Pattern
+###### keyword : `dependency injetion`
 - In these design patterns, the interaction between the objects should be in such a way that they can easily talk to each other and still should be loosely coupled.
   > That means the implementation and the client should be loosely coupled in order to avoid hard coding and dependencies.
 
