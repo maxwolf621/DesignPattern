@@ -4,31 +4,25 @@
 [Guro_memeto](https://refactoring.guru/design-patterns/memento)  
 [Another Example](https://github.com/iluwatar/java-design-patterns/tree/master/memento/src/main/java/com/iluwatar/memento)  
 
-[TOC]
+Memento is a behavioral design pattern that lets you **save and restore the previous state of an object** without revealing the details of its implementation.
 
-> Pattern
-> ![](https://i.imgur.com/gGCZUOm.png)
-> ---
-> ![](https://i.imgur.com/RnlS0sH.png)
-
+![](https://i.imgur.com/RnlS0sH.png)  
 
 
 Originator (Role)  
 - Creates memento objects capturing the originator's internal states(restore its previous states.)  
-
 Caretaker (take care of state from Role)
 - Responsible for keeping records of the memento(s) for Originator  
 - **The memento is opaque(opak) to the caretaker, and the caretaker must not operate on it.**  
 
-## Multiple state backups in Caretaker
-![](https://i.imgur.com/f9V8vYW.png)  
-- class `CareTaker` has array `Memento[]`  
-
-![](https://i.imgur.com/pFQSIql.png)  
-
+> ### Pattern UML    
+> ![](https://i.imgur.com/f9V8vYW.png)    
+> - class `CareTaker` has array `Memento[]`    
+> ![](https://i.imgur.com/pFQSIql.png)    
 
 ## Example  
-Record/Get the sate of A character/Role's HP and EXP using via Memento pattern [soruceCode](http://corrupt003-design-pattern.blogspot.com/2017/02/memento-pattern.html)    
+Record/Get the sate of A character/Role's HP and EXP using via Memento pattern  
+[soruceCode](http://corrupt003-design-pattern.blogspot.com/2017/02/memento-pattern.html)    
 
 ![](https://i.imgur.com/rm5qCcZ.png)  
 
@@ -160,10 +154,9 @@ public class GameCaretaker {
 }
 
 /**
- * Client
+ * <p> Test/Client </p>
  */
 public class Demo {
-
     public static void main(String[] args)
     {
         /**
