@@ -1,8 +1,8 @@
 ###### tags: `Design Pattern`
 # Memento  
-[REF tutorialspoint](https://www.tutorialspoint.com/design_pattern/memento_pattern.htm)  
-[Guro_memeto](https://refactoring.guru/design-patterns/memento)  
-[Another Example](https://github.com/iluwatar/java-design-patterns/tree/master/memento/src/main/java/com/iluwatar/memento)  
+[Example From tutorialspoint](https://www.tutorialspoint.com/design_pattern/memento_pattern.htm)  
+[Example From Guro](https://refactoring.guru/design-patterns/memento)  
+[Example From Iluwater](https://github.com/iluwatar/java-design-patterns/tree/master/memento/src/main/java/com/iluwatar/memento)  
 
 Memento is a behavioral design pattern that lets you **save and restore the previous state of an object** without revealing the details of its implementation.
 
